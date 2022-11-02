@@ -4,6 +4,7 @@
 # Compiled Object files
 obj/
 bin/
+
 *.slo
 *.lo
 *.o
@@ -22,3 +23,5 @@ bin/
 *.exe
 *.out
 *.app
+
+.vscode/

@@ -28,4 +28,9 @@ a map that develops over time and generations of entrypoints. can also be subjec
         - tbd but needed (lake?)
         - squares as houses
 - file input/output
+    - command line args
+    - take input coordinates between [[0,0], [500,500]], with a type, and a status (for now, as JSON)
+    - affect a radius around each input
+    - write image that's 1000x1000
+
 - http server
