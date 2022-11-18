@@ -1,10 +1,5 @@
 #include "ofApp.h"
 
-#define ROWS_NUM 200
-#define COLS_NUM 200
-
-ofMesh mesh;
-
 //--------------------------------------------------------------
 void ofApp::setup()
 {
@@ -16,7 +11,7 @@ void ofApp::setup()
 
     if (args.size() == 0)
     {
-        ofLog() << "no arguments provided, loading defaults";
+        ofLog() << "no filepath provided, loading defaults";
         filepath = ofToDataPath("dummy.json");
     }
     else
@@ -24,37 +19,23 @@ void ofApp::setup()
         filepath = ofToDataPath(args.at(0));
     }
 
-    //-- allocating data for drawing into fbo
-    fbo.allocate(1000, 1000, GL_RGBA);
-
-    //-- matrix operations to have input data to match bottom-left origin of leaflet
-    m.rotate(-90, 0, 0, 1);
-    m.translate(0, ofGetHeight(), 0);
+    server_settings.setPort(8080);
+    server.setup(server_settings);
+    server.postRoute().registerPostEvents(this);
+    server.start();
+    
 
     //-- load data points
     ofFile file(filepath);
     if (file.exists())
     {
-        ofLog() << "found file " << filepath << ", loading...";
         input_data = ofLoadJson(file);
-        for (int i = 0; i < input_data.size(); i++)
-        {
-            ofPoint p = ofPoint(input_data[i]["lat"], input_data[i]["lng"]);
-            ofPoint p2 = p * m;
-            markers.push_back(p2);
-        }
+        map.setup(input_data);
     }
     else
     {
         ofLogWarning() << "could not open file!";
     }
-
-    ofPlanePrimitive plane;
-    plane.set(1000, 1000);
-    plane.setResolution(ROWS_NUM, COLS_NUM);
-    mesh = plane.getMesh();
-
-    ofLog() << "setting up mesh with " << mesh.getNumIndices() << " indices";
 }
 
 //--------------------------------------------------------------
@@ -65,19 +46,7 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-    fbo.begin();
-    ofPushMatrix();
-    ofTranslate(500, 500);
-    mesh.drawWireframe();
-    ofPopMatrix();
-
-    for (int i = 0; i < markers.size(); i++)
-    {
-        ofDrawCircle(markers[i], 20);
-    }
-    fbo.end();
-
-    fbo.draw(0, 0);
+    map.draw();
 }
 
 //--------------------------------------------------------------
@@ -87,13 +56,12 @@ void ofApp::keyPressed(int key)
     switch (key)
     {
     case 110:
-        deformVertex();
+        map.deformVertex();
         break;
     case 112:
-        printMap();
+        map.printMap();
         break;
     default:
-        ofLog() << "key pressed: " << key;
         break;
     }
 }
@@ -103,23 +71,22 @@ void ofApp::mousePressed(int x, int y, int button)
 {
 }
 
-void ofApp::printMap()
+void ofApp::onHTTPPostEvent(ofxHTTP::PostEventArgs &args)
 {
-    ofLog() << "printing image";
-    ofPixels pix;
-    fbo.readToPixels(pix);
-
-    ofImage img;
-    img.setFromPixels(pix);
-    img.save("map.png");
+    ofLogNotice() << "Not handling post events";
 }
 
-void ofApp::deformVertex()
+void ofApp::onHTTPFormEvent(ofxHTTP::PostFormEventArgs &args)
 {
-    ofLog() << "deforming vertex";
-    int i = int(ofRandom(mesh.getNumIndices() - 10));
-    ofVec3f p = mesh.getVertex(i);
-    ofVec3f n(p.x, p.y, p.z + ofRandom(30));
-    ofLog() << "setting #" << i << " to " << n.x << ", " << n.y << ", " << n.z;
-    mesh.setVertex(i, n);
+    ofLogNotice("ofApp::onHTTPFormEvent") << "";
+    Poco::Net::NameValueCollection data = args.getForm();
+    for (const auto &entry : data)
+    {
+        ofLog() << entry.first << ": " << entry.second;
+    }
+}
+
+void ofApp::onHTTPUploadEvent(ofxHTTP::PostUploadEventArgs &args)
+{
+    ofLogNotice() << "Not handling upload events";
 }
