@@ -78,12 +78,27 @@ void ofApp::onHTTPPostEvent(ofxHTTP::PostEventArgs &args)
 
 void ofApp::onHTTPFormEvent(ofxHTTP::PostFormEventArgs &args)
 {
-    ofLogNotice("ofApp::onHTTPFormEvent") << "";
+    ofLogNotice("ofApp::onHTTPFormEvent") << ofGetTimestampString();
     Poco::Net::NameValueCollection data = args.getForm();
+
+    map.markers.clear();
     for (const auto &entry : data)
     {
         ofLog() << entry.first << ": " << entry.second;
+        
+        auto val = ofSplitString(entry.second, ",");
+
+        int gen = ofToInt(val[0]);
+        string status = ofToString(val[1]);
+        string cluster = ofToString(val[2]);
+        float lat = ofToFloat(val[3]);
+        float lng = ofToFloat(val[4]);
+
+        Marker m = Marker(gen, status, cluster, lat, lng);
+        map.markers.push_back(m);
     }
+
+    map.update();
 }
 
 void ofApp::onHTTPUploadEvent(ofxHTTP::PostUploadEventArgs &args)

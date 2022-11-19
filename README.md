@@ -2,12 +2,18 @@
 
 a map that develops over time and generations of entrypoints. can also be subjected to sacrifices.
 
+## todo
+
+- [ ] fix the issue where only top left quarter of markers is displayed
+
 ## factors
 
-- location of entrypoint
-- state of entrypoint
+data which should be provided as comma-separated values
 - generation
-- connection between entrypoints (additional layer)
+- status
+- cluster
+- lat
+- lng
 
 ## notes
 

@@ -1,4 +1,5 @@
 #include "ofMain.h"
+#include "Marker.h"
 
 class Map
 {
@@ -9,8 +10,10 @@ public:
     void deformVertex();
     void printMap();
 
-    vector<ofPoint> markers;
-    ofMatrix4x4 m;
+    vector<Marker> markers;
+
+private:
     ofFbo fbo;
     ofMesh mesh;
+    bool canPrint = false;
 };

@@ -4,6 +4,12 @@
 #include "ofxHTTP.h"
 #include "Map.h"
 
+#define MAP_WIDTH 1000
+#define MAP_HEIGHT 1000
+#define ROWS_NUM 100
+#define COLS_NUM 100
+#define AFFECTED_DISTANCE 50
+
 class ofApp : public ofBaseApp
 {
 public:

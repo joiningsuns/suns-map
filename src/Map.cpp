@@ -1,49 +1,81 @@
 #include "ofApp.h"
 
-#define ROWS_NUM 200
-#define COLS_NUM 200
-
 void Map::setup(ofJson data)
 {
     for (int i = 0; i < data.size(); i++)
     {
-        ofPoint p = ofPoint(data[i]["lat"], data[i]["lng"]);
-        ofPoint p2 = p * m;
-        markers.push_back(p2);
+        Marker marker = Marker(data[i]["generation"], data[i]["status"], data[i]["cluster"], data[i]["lat"], data[i]["lng"]);
+
+        markers.push_back(marker);
     }
 
     //-- allocating data for drawing into fbo
-    fbo.allocate(1000, 1000, GL_RGBA);
+    fbo.allocate(MAP_WIDTH, MAP_HEIGHT, GL_RGBA);
 
-    //-- matrix operations to have input data to match bottom-left origin of leaflet
-    m.rotate(-90, 0, 0, 1);
-    m.translate(0, ofGetHeight(), 0);
-
-    ofPlanePrimitive plane;
-    plane.set(1000, 1000);
-    plane.setResolution(ROWS_NUM, COLS_NUM);
+    ofPlanePrimitive plane(MAP_WIDTH, MAP_HEIGHT, ROWS_NUM, COLS_NUM, OF_PRIMITIVE_LINES);
     mesh = plane.getMesh();
+    mesh.setColorForIndices(0, mesh.getNumIndices(), ofColor::white);
 
     ofLog() << "setting up mesh with " << mesh.getNumIndices() << " indices";
+}
+
+void Map::update()
+{
+
+    for (int i = 0; i < markers.size(); i++)
+    {
+        ofPoint m = markers[i].pos;
+        // ofLog() << "marker: " << i << " x: " << m.x << " y: " << m.y;
+        for (int j = 0; j < mesh.getNumVertices(); j++)
+        {
+            ofVec3f v = mesh.getVertex(j);
+            if (m.distance(v) < AFFECTED_DISTANCE)
+            {
+                ofVec3f n(v.x, v.y, v.z + ofRandom(10, 30));
+                // ofLog() << "setting #" << j << " to x:" << n.x << ", y:" << n.y << ", z:" << n.z;
+                // mesh.setVertex(j, n);
+
+                ofColor c(ofRandom(0, 25), ofRandom(0, 25), ofRandom(0, 25));
+                if (markers[i].cluster == "Draught")
+                {
+                    c.set(ofRandom(100, 255), 0, 0);
+                }
+                else if (markers[i].cluster == "Symbiosis")
+                {
+                    c.set(0, ofRandom(100, 255), 0);
+                }
+                else if (markers[i].cluster == "Footprints")
+                {
+                    c.set(0, 0, ofRandom(100, 255));
+                }
+                else
+                {
+                }
+                mesh.setColor(j, c);
+            }
+        }
+    }
+
+    canPrint = true;
 }
 
 void Map::draw()
 {
     fbo.begin();
+    ofBackground(255, 255, 255);
     ofPushMatrix();
-    ofTranslate(500, 500);
-    mesh.drawWireframe();
+    ofTranslate(MAP_WIDTH / 2, MAP_HEIGHT / 2);
+    mesh.draw();
     ofPopMatrix();
-
-    for (int i = 0; i < markers.size(); i++)
-    {
-        ofDrawCircle(markers[i], 20);
-    }
     fbo.end();
 
     fbo.draw(0, 0);
-}
 
+    if(canPrint){
+        printMap();
+        canPrint = false;
+    }
+}
 
 void Map::printMap()
 {
@@ -53,7 +85,7 @@ void Map::printMap()
 
     ofImage img;
     img.setFromPixels(pix);
-    img.save("map.png");
+    img.save(ofGetTimestampString()+"_map.png");
 }
 
 void Map::deformVertex()
@@ -61,7 +93,7 @@ void Map::deformVertex()
     ofLog() << "deforming vertex";
     int i = int(ofRandom(mesh.getNumIndices() - 10));
     ofVec3f p = mesh.getVertex(i);
-    ofVec3f n(p.x, p.y, p.z + ofRandom(30));
+    ofVec3f n(p.x, p.y, p.z + ofRandom(10, 30));
     ofLog() << "setting #" << i << " to " << n.x << ", " << n.y << ", " << n.z;
     mesh.setVertex(i, n);
 }
