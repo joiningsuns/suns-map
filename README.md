@@ -4,7 +4,7 @@ a map that develops over time and generations of entrypoints. can also be subjec
 
 ## todo
 
-- [ ] fix the issue where only top left quarter of markers is displayed
+- [x] fix the issue where only top left quarter of markers is displayed
 
 ## factors
 
