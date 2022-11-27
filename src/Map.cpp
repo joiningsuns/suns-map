@@ -14,7 +14,17 @@ void Map::setup(ofJson data)
 
     ofPlanePrimitive plane(MAP_WIDTH, MAP_HEIGHT, ROWS_NUM, COLS_NUM, OF_PRIMITIVE_LINES);
     mesh = plane.getMesh();
-    mesh.setColorForIndices(0, mesh.getNumIndices(), ofColor::white);
+
+    vector<ofColor> cs;
+    mesh.setColorForIndices(0, mesh.getNumIndices(), ofColor::black);
+    for (int i = 0; i < mesh.getNumColors(); i++)
+    {
+        ofColor c;
+        float n = ofNoise(i*0.001, (i % COLS_NUM)*0.001)*50 + 200;
+        c.set(n, n, 255);
+        cs.push_back(c);
+        mesh.setColor(i, c);
+    }
 
     ofLog() << "setting up mesh with " << mesh.getNumIndices() << " indices";
 }
@@ -81,10 +91,11 @@ void Map::printMap()
 {
     ofLog() << "printing image";
     ofPixels pix;
-    fbo.readToPixels(pix);
-
     ofImage img;
+
+    fbo.readToPixels(pix);
     img.setFromPixels(pix);
+    img.setImageType(OF_IMAGE_COLOR_ALPHA);
     img.save(ofGetTimestampString()+"_map.png");
 }
 

@@ -3,7 +3,7 @@
 
 //========================================================================
 int main(int argc, char *argv[])
-{	
+{
 	vector<string> args;
 	for (int i = 0; i < argc - 1; i++)
 	{
@@ -16,11 +16,9 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	// Use ofGLFWWindowSettings for more options like multi-monitor fullscreen
 	ofGLWindowSettings settings;
 	settings.setSize(MAP_WIDTH, MAP_HEIGHT);
-	settings.windowMode = OF_WINDOW; // can also be OF_FULLSCREEN
-
+	settings.windowMode = OF_WINDOW;
 	auto window = ofCreateWindow(settings);
 
 	ofRunApp(window, make_shared<ofApp>(args));

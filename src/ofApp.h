@@ -6,9 +6,9 @@
 
 #define MAP_WIDTH 2000
 #define MAP_HEIGHT 2000
-#define ROWS_NUM 200
-#define COLS_NUM 200
-#define AFFECTED_DISTANCE 50
+#define ROWS_NUM 100
+#define COLS_NUM 100
+#define AFFECTED_DISTANCE 70
 
 class ofApp : public ofBaseApp
 {
