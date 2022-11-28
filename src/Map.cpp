@@ -10,7 +10,10 @@ void Map::setup(ofJson data)
     }
 
     //-- allocating data for drawing into fbo
-    fbo.allocate(MAP_WIDTH, MAP_HEIGHT, GL_RGBA);
+    fbo.allocate(MAP_WIDTH, MAP_HEIGHT, GL_RGB);
+    fbo.begin();
+    ofClear(255, 255, 255);
+    fbo.end();
 
     ofPlanePrimitive plane(MAP_WIDTH, MAP_HEIGHT, ROWS_NUM, COLS_NUM, OF_PRIMITIVE_LINES);
     mesh = plane.getMesh();
@@ -20,7 +23,7 @@ void Map::setup(ofJson data)
     for (int i = 0; i < mesh.getNumColors(); i++)
     {
         ofColor c;
-        float n = ofNoise(i*0.001, (i % COLS_NUM)*0.001)*50 + 200;
+        float n = ofNoise(i * 0.001, (i % COLS_NUM) * 0.001) * 50 + 200;
         c.set(n, n, 255);
         cs.push_back(c);
         mesh.setColor(i, c);
@@ -81,7 +84,8 @@ void Map::draw()
 
     fbo.draw(0, 0);
 
-    if(canPrint){
+    if (canPrint)
+    {
         printMap();
         canPrint = false;
     }
@@ -92,11 +96,13 @@ void Map::printMap()
     ofLog() << "printing image";
     ofPixels pix;
     ofImage img;
+    pix.allocate(MAP_WIDTH, MAP_HEIGHT, OF_PIXELS_RGB);
+    img.allocate(MAP_WIDTH, MAP_HEIGHT, OF_IMAGE_COLOR);
 
     fbo.readToPixels(pix);
     img.setFromPixels(pix);
-    img.setImageType(OF_IMAGE_COLOR_ALPHA);
-    img.save(ofGetTimestampString()+"_map.png");
+
+    img.save(ofGetTimestampString() + "_map.png");
 }
 
 void Map::deformVertex()
