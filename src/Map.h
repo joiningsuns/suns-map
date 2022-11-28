@@ -4,7 +4,7 @@
 class Map
 {
 public:
-    void setup(ofJson);
+    void setup();
     void update();
     void draw();
     void deformVertex();

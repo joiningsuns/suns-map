@@ -11,12 +11,7 @@ void ofApp::setup()
 
     if (args.size() == 0)
     {
-        ofLog() << "no filepath provided, loading defaults";
-        filepath = ofToDataPath("dummy.json");
-    }
-    else
-    {
-        filepath = ofToDataPath(args.at(0));
+        ofLog() << "no args provided!";
     }
 
     server_settings.setPort(8080);
@@ -24,18 +19,7 @@ void ofApp::setup()
     server.postRoute().registerPostEvents(this);
     server.start();
     
-
-    //-- load data points
-    ofFile file(filepath);
-    if (file.exists())
-    {
-        input_data = ofLoadJson(file);
-        map.setup(input_data);
-    }
-    else
-    {
-        ofLogWarning() << "could not open file!";
-    }
+    map.setup();
 }
 
 //--------------------------------------------------------------

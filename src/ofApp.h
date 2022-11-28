@@ -9,6 +9,7 @@
 #define ROWS_NUM 100
 #define COLS_NUM 100
 #define AFFECTED_DISTANCE 70
+#define MODE "dev"
 
 class ofApp : public ofBaseApp
 {
@@ -33,9 +34,6 @@ public:
 	ofxHTTP::SimplePostServerSettings server_settings;
 
 	vector<string> args;
-
-	string filepath;
-	ofJson input_data;
 
 	Map map;
 };

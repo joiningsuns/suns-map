@@ -1,14 +1,7 @@
 #include "ofApp.h"
 
-void Map::setup(ofJson data)
+void Map::setup()
 {
-    for (int i = 0; i < data.size(); i++)
-    {
-        Marker marker = Marker(data[i]["generation"], data[i]["status"], data[i]["cluster"], data[i]["lat"], data[i]["lng"]);
-
-        markers.push_back(marker);
-    }
-
     //-- allocating data for drawing into fbo
     fbo.allocate(MAP_WIDTH, MAP_HEIGHT, GL_RGB);
     fbo.begin();
@@ -102,7 +95,17 @@ void Map::printMap()
     fbo.readToPixels(pix);
     img.setFromPixels(pix);
 
-    img.save(ofGetTimestampString() + "_map.png");
+    if (MODE == "dev")
+    {
+        img.save(ofGetTimestampString() + "_map.png");
+    }
+    else if (MODE == "prod")
+    {
+        img.save("/var/www/" + ofGetTimestampString() + "_map.png");
+        img.save("/var/www/map.png");
+    }else{
+        ofLog() << "Wrong mode specified, not writing to file";
+    }
 }
 
 void Map::deformVertex()
