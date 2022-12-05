@@ -19,7 +19,7 @@ data which should be provided as comma-separated values
 
 inspired by [kevin lynch's image of the city](https://en.wikipedia.org/wiki/The_Image_of_the_City)
 
-- vector map
+- __static elements__
     - district
         - 3d surface
         - heightmap
@@ -35,10 +35,16 @@ inspired by [kevin lynch's image of the city](https://en.wikipedia.org/wiki/The_
     - landmark
         - tbd but needed (lake?)
         - squares as houses
-- file input/output
+        
+- __modes of interaction__
+    - proximity?
+    - similar clusters?
+        
+        
+- __file input/output__
     - command line args
     - take input coordinates between [[0,0], [500,500]], with a type, and a status (for now, as JSON)
     - affect a radius around each input
     - write image that's 1000x1000
 
-- http server
+- __http server__
