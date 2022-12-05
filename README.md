@@ -17,6 +17,8 @@ data which should be provided as comma-separated values
 
 ## notes
 
+inspired by [kevin lynch's image of the city](https://en.wikipedia.org/wiki/The_Image_of_the_City)
+
 - vector map
     - district
         - 3d surface
