@@ -4,7 +4,7 @@
 class Map
 {
 public:
-    void setup();
+    void setup(string mode);
     void update();
     void draw();
     void deformVertex();
@@ -15,5 +15,6 @@ public:
 private:
     ofFbo fbo;
     ofMesh mesh;
+    string mode;
     bool canPrint = false;
 };

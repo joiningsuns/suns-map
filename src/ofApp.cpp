@@ -3,15 +3,18 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-    ofLog() << "parsing cli args...";
+    ofLog() << "parsing "<< args.size() << "cli args...";
     for (int i = 0; i < args.size(); i++)
     {
         ofLog() << "- " << i << ": " << args.at(i);
     }
 
-    if (args.size() == 0)
-    {
-        ofLog() << "no args provided!";
+    if(ofGetEnv("MODE") == "prod" || ofGetEnv("MODE") == "dev"){
+        MODE = ofGetEnv("MODE");
+        ofLog() << "setting MODE to: " << MODE;
+    }else{
+        ofLogWarning() << "no environment found, defaulting to dev!";
+        MODE = "dev";
     }
 
     server_settings.setPort(8080);
@@ -19,7 +22,7 @@ void ofApp::setup()
     server.postRoute().registerPostEvents(this);
     server.start();
     
-    map.setup();
+    map.setup(MODE);
 }
 
 //--------------------------------------------------------------

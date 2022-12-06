@@ -1,7 +1,8 @@
 #include "ofApp.h"
 
-void Map::setup()
+void Map::setup(string _mode)
 {
+    mode = _mode;
     //-- allocating data for drawing into fbo
     fbo.allocate(MAP_WIDTH, MAP_HEIGHT, GL_RGB);
     fbo.begin();
@@ -27,6 +28,10 @@ void Map::setup()
 
 void Map::update()
 {
+
+    fbo.begin();
+    ofClear(255, 255, 255);
+    fbo.end();
 
     for (int i = 0; i < markers.size(); i++)
     {
@@ -100,12 +105,12 @@ void Map::printMap()
     fbo.readToPixels(pix);
     img.setFromPixels(pix);
 
-    if (MODE == "dev")
+    if (mode == "dev")
     {
         img.save(ofGetTimestampString() + "_map.png");
         img.save("map.png");
     }
-    else if (MODE == "prod")
+    else if (mode == "prod")
     {
         img.save("/var/www/" + ofGetTimestampString() + "_map.png");
         img.save("/var/www/map.png");

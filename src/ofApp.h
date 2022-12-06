@@ -9,7 +9,6 @@
 #define ROWS_NUM 100
 #define COLS_NUM 100
 #define AFFECTED_DISTANCE 70
-#define MODE "dev"
 
 class ofApp : public ofBaseApp
 {
@@ -30,6 +29,7 @@ public:
 	void onHTTPFormEvent(ofxHTTP::PostFormEventArgs &evt);
 	void onHTTPUploadEvent(ofxHTTP::PostUploadEventArgs &evt);
 
+	string MODE;
 	ofxHTTP::SimplePostServer server;
 	ofxHTTP::SimplePostServerSettings server_settings;
 
