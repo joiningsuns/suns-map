@@ -44,18 +44,23 @@ void Map::update()
                 ofColor c(ofRandom(0, 25), ofRandom(0, 25), ofRandom(0, 25));
                 if (markers[i].cluster == "Draught")
                 {
-                    c.set(ofRandom(100, 255), 0, 0);
+                    c.set(ofRandom(200, 255), ofRandom(200, 255), 0);
                 }
                 else if (markers[i].cluster == "Symbiosis")
                 {
-                    c.set(0, ofRandom(100, 255), 0);
+                    c.set(0, ofRandom(200, 255), 0);
                 }
                 else if (markers[i].cluster == "Footprints")
                 {
-                    c.set(0, 0, ofRandom(100, 255));
+                    c.set(ofRandom(200, 255), 0, 0);
                 }
-                else
+                else if(markers[i].cluster == "Combining First Times")
                 {
+                 c.set(0, 0, ofRandom(200, 255));   
+                }
+                else if(markers[i].cluster == "Cracks")
+                {
+                    c.set(ofRandom(200, 255), 0, ofRandom(200, 255));
                 }
                 mesh.setColor(j, c);
             }
@@ -98,6 +103,7 @@ void Map::printMap()
     if (MODE == "dev")
     {
         img.save(ofGetTimestampString() + "_map.png");
+        img.save("map.png");
     }
     else if (MODE == "prod")
     {
