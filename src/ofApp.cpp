@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-    ofLog() << "parsing "<< args.size() << "cli args...";
+    ofLog() << "parsing "<< args.size() << " cli args...";
     for (int i = 0; i < args.size(); i++)
     {
         ofLog() << "- " << i << ": " << args.at(i);

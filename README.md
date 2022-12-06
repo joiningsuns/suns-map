@@ -19,19 +19,26 @@ data which should be provided as comma-separated values
 
 inspired by [kevin lynch's image of the city](https://en.wikipedia.org/wiki/The_Image_of_the_City)
 
+- __variables__
+    - generation
+    - cluster
+    - status
+
 - __static elements__
     - district
+        - ofShape() with some randomized vertices, and a bit of alpha
         - 3d surface
         - heightmap
         - topography lines shader
         - move all vertices in a given area to smooth slope
     - path
-        - find clusters, modulate ofPath between two
-        - branch away from path
+        - randomize whether the path is drawn or not
+        - draw from entrypoint OR from average mean of entrypoint
+        - branch away from path?
     - edge
         - limit of zone of influence of each entrypoint?
     - node
-        - entrypoints, could have specific addition to it (texture?)
+        - entrypoints, could have specific addition to it (already done)
     - landmark
         - tbd but needed (lake?)
         - squares as houses
