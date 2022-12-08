@@ -12,14 +12,12 @@ void Map::setup(string _mode)
     ofPlanePrimitive plane(MAP_WIDTH, MAP_HEIGHT, ROWS_NUM, COLS_NUM, OF_PRIMITIVE_LINES);
     mesh = plane.getMesh();
 
-    vector<ofColor> cs;
     mesh.setColorForIndices(0, mesh.getNumIndices(), ofColor::black);
     for (int i = 0; i < mesh.getNumColors(); i++)
     {
         ofColor c;
-        float n = ofNoise(i * 0.001, (i % COLS_NUM) * 0.001) * 50 + 200;
-        c.set(n, n, 255);
-        cs.push_back(c);
+        float n = ofNoise((i) * 0.0005, (i % COLS_NUM) * 0.00001) * 150 + 100;
+        c.set(n, n, n);
         mesh.setColor(i, c);
     }
 
@@ -33,44 +31,7 @@ void Map::update()
     ofClear(255, 255, 255);
     fbo.end();
 
-    for (int i = 0; i < markers.size(); i++)
-    {
-        ofPoint m = markers[i].pos;
-        // ofLog() << "marker: " << i << " x: " << m.x << " y: " << m.y;
-        for (int j = 0; j < mesh.getNumVertices(); j++)
-        {
-            ofVec3f v = mesh.getVertex(j);
-            if (m.distance(v) < AFFECTED_DISTANCE)
-            {
-                ofVec3f n(v.x, v.y, v.z + ofRandom(10, 30));
-                // ofLog() << "setting #" << j << " to x:" << n.x << ", y:" << n.y << ", z:" << n.z;
-                // mesh.setVertex(j, n);
-
-                ofColor c(ofRandom(0, 25), ofRandom(0, 25), ofRandom(0, 25));
-                if (markers[i].cluster == "Draught")
-                {
-                    c.set(ofRandom(200, 255), ofRandom(200, 255), 0);
-                }
-                else if (markers[i].cluster == "Symbiosis")
-                {
-                    c.set(0, ofRandom(200, 255), 0);
-                }
-                else if (markers[i].cluster == "Footprints")
-                {
-                    c.set(ofRandom(200, 255), 0, 0);
-                }
-                else if(markers[i].cluster == "Combining First Times")
-                {
-                 c.set(0, 0, ofRandom(200, 255));   
-                }
-                else if(markers[i].cluster == "Cracks")
-                {
-                    c.set(ofRandom(200, 255), 0, ofRandom(200, 255));
-                }
-                mesh.setColor(j, c);
-            }
-        }
-    }
+    //-- should take care of increasing the generation
 
     canPrint = true;
 }
@@ -82,6 +43,10 @@ void Map::draw()
     ofPushMatrix();
     ofTranslate(MAP_WIDTH / 2, MAP_HEIGHT / 2);
     mesh.draw();
+    for (int i = 0; i < markers.size(); i++)
+    {
+        markers[i].draw();
+    }
     ofPopMatrix();
     fbo.end();
 
@@ -114,7 +79,9 @@ void Map::printMap()
     {
         img.save("/var/www/" + ofGetTimestampString() + "_map.png");
         img.save("/var/www/map.png");
-    }else{
+    }
+    else
+    {
         ofLog() << "Wrong mode specified, not writing to file";
     }
 }

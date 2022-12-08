@@ -21,6 +21,7 @@ public:
 	void setup();
 	void update();
 	void draw();
+	void addMarkers(int num);
 
 	void keyPressed(int key);
 	void mousePressed(int x, int y, int button);
@@ -34,6 +35,7 @@ public:
 	ofxHTTP::SimplePostServerSettings server_settings;
 
 	vector<string> args;
+	vector<string> clusters;
 
 	Map map;
 };
