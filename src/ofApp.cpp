@@ -74,7 +74,7 @@ void ofApp::addMarkers(int num)
     for (int i = 0; i < num; i++)
     {
 
-        int gen = 0;
+        int gen = ofRandom(4);
         string status = "open";
         int r = ofRandom(clusters.size());
         string cluster = clusters.at(r);

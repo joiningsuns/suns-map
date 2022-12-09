@@ -4,6 +4,11 @@ a map that develops over time and generations of entrypoints. can also be subjec
 
 ## todo
 
+- [ ] display shapes several time for one marker, based on how old it is
+- [ ] figure out how to not clear the markers, and update the markers that are already existing
+- [ ] draw paths between markers
+- [ ] show only outline if open, filled if pending, filled and thick outline if completed
+- [ ] figure out a background
 - [x] fix the issue where only top left quarter of markers is displayed
 
 ## factors

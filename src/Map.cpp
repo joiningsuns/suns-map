@@ -9,17 +9,8 @@ void Map::setup(string _mode)
     ofClear(255, 255, 255);
     fbo.end();
 
-    ofPlanePrimitive plane(MAP_WIDTH, MAP_HEIGHT, ROWS_NUM, COLS_NUM, OF_PRIMITIVE_LINES);
+    ofPlanePrimitive plane(MAP_WIDTH, MAP_HEIGHT, ROWS_NUM, COLS_NUM, OF_PRIMITIVE_TRIANGLES);
     mesh = plane.getMesh();
-
-    mesh.setColorForIndices(0, mesh.getNumIndices(), ofColor::black);
-    for (int i = 0; i < mesh.getNumColors(); i++)
-    {
-        ofColor c;
-        float n = ofNoise((i) * 0.0005, (i % COLS_NUM) * 0.00001) * 150 + 100;
-        c.set(n, n, n);
-        mesh.setColor(i, c);
-    }
 
     ofLog() << "setting up mesh with " << mesh.getNumIndices() << " indices";
 }
@@ -31,7 +22,16 @@ void Map::update()
     ofClear(255, 255, 255);
     fbo.end();
 
-    //-- should take care of increasing the generation
+    for (int i = 0; i < markers.size(); i++)
+    {
+        if(markers[i].generation > latestGeneration){
+            latestGeneration = markers[i].generation;
+        };
+    }
+
+    for(Marker m : markers){
+        m.update(latestGeneration);
+    }
 
     canPrint = true;
 }

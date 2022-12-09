@@ -17,4 +17,5 @@ private:
     ofMesh mesh;
     string mode;
     bool canPrint = false;
+    int latestGeneration;
 };
