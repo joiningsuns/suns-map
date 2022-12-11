@@ -1,8 +1,15 @@
 #include "ofApp.h"
 
+ofColor Map::YELLOW = ofColor(201, 165, 72);
+ofColor Map::BLUE = ofColor(58, 131, 104);
+ofColor Map::GREEN = ofColor(78, 127, 54);
+ofColor Map::ORANGE = ofColor(178, 96, 48);
+ofColor Map::RED = ofColor(195, 73, 76);
+
 void Map::setup(string _mode)
 {
     mode = _mode;
+
     //-- allocating data for drawing into fbo
     fbo.allocate(MAP_WIDTH, MAP_HEIGHT, GL_RGB);
     fbo.begin();
@@ -24,12 +31,14 @@ void Map::update()
 
     for (int i = 0; i < markers.size(); i++)
     {
-        if(markers[i].generation > latestGeneration){
+        if (markers[i].generation > latestGeneration)
+        {
             latestGeneration = markers[i].generation;
         };
     }
 
-    for(Marker m : markers){
+    for (Marker m : markers)
+    {
         m.update(latestGeneration);
     }
 

@@ -8,8 +8,13 @@ a map that develops over time and generations of entrypoints. can also be subjec
 - [ ] figure out how to not clear the markers, and update the markers that are already existing
 - [ ] draw paths between markers
 - [ ] show only outline if open, filled if pending, filled and thick outline if completed
-- [ ] figure out a background
-- [x] fix the issue where only top left quarter of markers is displayed
+- [ ] figure out a background (districts could be patterns: just `* * *` or `( ) ( ) ( )`)
+- [x] fix the issue where only top left quarter of markers is displayed-
+
+## palettes
+
+- https://colorswall.com/palette/178942
+- https://colorkit.co/palette/ab5852-eadaa0-d69e49-838469-476066/
 
 ## factors
 

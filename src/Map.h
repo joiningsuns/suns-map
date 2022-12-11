@@ -4,6 +4,14 @@
 class Map
 {
 public:
+
+    static ofColor YELLOW;
+    static ofColor BLUE;
+    static ofColor GREEN;
+    static ofColor ORANGE;
+    static ofColor RED;
+
+
     void setup(string mode);
     void update();
     void draw();

@@ -19,11 +19,11 @@ Marker::Marker(int gen, string status, string cluster, float lng, float lat)
 
     this->alpha = 50;
 
-    draught_color = ofColor(200, 200, 100);
-    symbiosis_color = ofColor(100, 200, 100);
-    footprints_color = ofColor(200, 100, 100);
-    first_times_color = ofColor(100, 100, 200);
-    cracks_color = ofColor(200, 100, 200);
+    draught_color = Map::YELLOW;
+    symbiosis_color = Map::GREEN;
+    footprints_color = Map::RED;
+    first_times_color = Map::BLUE;
+    cracks_color = Map::ORANGE;
 
     for (float i = 0; i < TWO_PI; i += 0.01)
     {
