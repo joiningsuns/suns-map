@@ -67,6 +67,7 @@ Marker::Marker(int gen, string status, string cluster, float lng, float lat)
     }
     else
     {
+        ofLog() << "cluster not recognized: " << cluster;
         fillColor = ofColor(0, 0, 0);
     }
 }
@@ -86,4 +87,5 @@ void Marker::draw()
     ofPushMatrix();
     ofTranslate(pos);
     shape.draw();
+    ofPopMatrix();
 }
