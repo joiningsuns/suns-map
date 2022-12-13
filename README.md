@@ -4,12 +4,17 @@ a map that develops over time and generations of entrypoints. can also be subjec
 
 ## todo
 
-- [ ] display shapes several time for one marker, based on how old it is
+- [x] stop the draw loop once it's printed
+- [x] display shapes several time for one marker, based on how old it is
 - [ ] figure out how to not clear the markers, and update the markers that are already existing
 - [ ] draw paths between markers
 - [ ] show only outline if open, filled if pending, filled and thick outline if completed
 - [ ] figure out a background (districts could be patterns: just `* * *` or `( ) ( ) ( )`)
-- [x] fix the issue where only top left quarter of markers is displayed-
+- [x] fix the issue where only top left quarter of markers is displayed
+
+- having 2 or 3 Path typologies (hand drawn, parallel lines)
+- having a grid of points in the background
+- changing the icons in the middle (with a simple cross)
 
 ## palettes
 
@@ -21,6 +26,9 @@ a map that develops over time and generations of entrypoints. can also be subjec
 data which should be provided as comma-separated values
 - generation
 - status
+    - open: just filled?
+    - pending: filled + stroke (stroke style: dotted vs. line)
+    - done: desaturated
 - cluster
 - lat
 - lng

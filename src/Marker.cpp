@@ -3,21 +3,23 @@
 
 Marker::Marker(int gen, string status, string cluster, float lng, float lat)
 {
+    generation = gen;
+    status = status;
+    cluster = cluster;
+
     //-- matrix operations to have input data to match bottom-left origin of leaflet
     m.rotate(-90, 0, 0, 1);
     m.translate(-MAP_WIDTH / 4, MAP_HEIGHT / 4, 0);
     m.scale(2, 2, 2);
     ofPoint p = ofPoint(lng, lat);
 
-    this->generation = gen;
-    this->status = status;
-    this->cluster = cluster;
-    this->pos = p * m;
-    this->baseRadius = 80;
-    this->baseOffset = ofRandom(20);
-    this->radius = baseRadius + baseOffset;
+    pos = p * m;
+    baseRadius = 80;
+    baseOffset = ofRandom(20);
+    radius = baseRadius + baseOffset;
+    generationGap = 0;
 
-    this->alpha = 50;
+    alpha = 50;
 
     draught_color = Map::YELLOW;
     symbiosis_color = Map::GREEN;
@@ -74,18 +76,46 @@ Marker::Marker(int gen, string status, string cluster, float lng, float lat)
 
 void Marker::update(int latestGen)
 {
-    alpha = 150 - (generation * 2);
+    alpha = 100 - (generation * 2);
     fillColor.a = alpha;
     generationGap = latestGen - generation;
+
+    rings.clear();
+    int i = 0;
+    while (i < generationGap)
+    {
+        ofPath r;
+        for (int j = 0; j < points.size(); j++)
+        {
+            r.curveTo(points.at(j));
+        }
+        float s = 1 + (i + 1) * 0.3;
+        r.scale(s, s);
+        r.setStrokeWidth(2);
+        r.setFilled(false);
+        r.setStrokeColor(fillColor);
+        r.close();
+        rings.push_back(r);
+        i++;
+    }
 }
 
 void Marker::draw()
 {
-    shape.setFilled(true);
-    shape.setFillColor(fillColor);
-
     ofPushMatrix();
     ofTranslate(pos);
+
+    //-- draw the marker
+    shape.setFilled(true);
+    shape.setFillColor(fillColor);
+    shape.setStrokeColor(Map::NONE);
     shape.draw();
+
+    // -- draw the generation lines
+    for (auto r : rings)
+    {
+        r.draw();
+    }
+
     ofPopMatrix();
 }

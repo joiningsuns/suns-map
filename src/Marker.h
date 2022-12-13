@@ -29,6 +29,7 @@ public:
 
     ofColor fillColor;
     ofPath shape;
+    vector<ofPath> rings;
     vector<ofVec2f> points;
 private:
     ofMatrix4x4 m;

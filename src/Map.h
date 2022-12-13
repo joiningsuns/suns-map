@@ -10,19 +10,19 @@ public:
     static ofColor GREEN;
     static ofColor ORANGE;
     static ofColor RED;
+    static ofColor NONE;
 
 
     void setup(string mode);
     void update();
     void draw();
-    void deformVertex();
+    void drawBackground();
     void printMap();
 
     vector<Marker> markers;
 
 private:
     ofFbo fbo;
-    ofMesh mesh;
     string mode;
     bool canPrint = false;
     int latestGeneration;
