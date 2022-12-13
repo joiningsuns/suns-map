@@ -20,7 +20,6 @@ void ofApp::setup()
         MODE = "dev";
     }
 
-
     clusters.push_back("Draught");
     clusters.push_back("Symbiosis");
     clusters.push_back("Footprints");
@@ -78,8 +77,8 @@ void ofApp::addMarkers(int num)
         string status = "open";
         int r = ofRandom(clusters.size());
         string cluster = clusters.at(r);
-        float lat = ofRandom(MAP_WIDTH);
-        float lng = ofRandom(MAP_WIDTH);
+        float lat = ofRandom(MAP_WIDTH) - MAP_WIDTH / 2;
+        float lng = ofRandom(MAP_WIDTH) - MAP_WIDTH / 2;
 
         Marker m = Marker(gen, status, cluster, lat, lng);
         map.markers.push_back(m);

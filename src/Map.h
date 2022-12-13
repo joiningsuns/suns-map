@@ -1,5 +1,6 @@
 #include "ofMain.h"
 #include "Marker.h"
+#include "Connection.h"
 
 class Map
 {
@@ -20,6 +21,7 @@ public:
     void printMap();
 
     vector<Marker> markers;
+    vector<Connection> connections;
 
 private:
     ofFbo fbo;

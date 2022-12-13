@@ -39,6 +39,23 @@ void Map::update()
         m.update(latestGeneration);
     }
 
+    connections.clear();
+    for (Marker m1 : markers)
+    {
+        for (Marker m2 : markers)
+        {
+            if (m1.cluster == m2.cluster)
+            {
+                float r = ofRandom(10);
+                if (r > 9.75)
+                {
+                    Connection c = Connection(m1.pos, m2.pos);
+                    connections.push_back(c);
+                }
+            }
+        }
+    }
+
     canPrint = true;
 }
 
@@ -55,6 +72,12 @@ void Map::draw()
         {
             markers[i].draw();
         }
+
+        for (Connection c : connections)
+        {
+            c.draw();
+        }
+
         ofPopMatrix();
         fbo.end();
 

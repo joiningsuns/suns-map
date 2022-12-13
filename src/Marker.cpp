@@ -11,7 +11,7 @@ Marker::Marker(int gen, string status, string cluster, float lng, float lat)
     m.rotate(-90, 0, 0, 1);
     m.translate(-MAP_WIDTH / 4, MAP_HEIGHT / 4, 0);
     m.scale(2, 2, 2);
-    ofPoint p = ofPoint(lng, lat);
+    ofVec3f p = ofVec3f(lng, lat);
 
     pos = p * m;
     baseRadius = 80;
