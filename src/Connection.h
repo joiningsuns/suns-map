@@ -15,4 +15,5 @@ private:
     ofVec3f end;
     ofPath lineA;
     ofPath lineB;
+    vector<ofPath> lines;
 };

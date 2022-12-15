@@ -16,6 +16,8 @@ Connection::Connection(ofVec3f a, ofVec3f b)
     lineB.lineTo(middle);
     lineB.lineTo(end);
     lineB.close();
+
+    //-- TODO add more lines as vector
 }
 
 void Connection::update()

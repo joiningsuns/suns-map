@@ -27,5 +27,6 @@ private:
     ofFbo fbo;
     string mode;
     bool canPrint = false;
+    bool canDraw = true;
     int latestGeneration;
 };

@@ -68,20 +68,22 @@ void Map::draw()
 
         ofPushMatrix();
         ofTranslate(MAP_WIDTH / 2, MAP_HEIGHT / 2);
-        for (int i = 0; i < markers.size(); i++)
+        for (Marker m : markers)
         {
-            markers[i].draw();
+            m.draw();
         }
 
         for (Connection c : connections)
         {
             c.draw();
         }
-
         ofPopMatrix();
         fbo.end();
 
-        fbo.draw(0, 0);
+        if (canDraw)
+        {
+            fbo.draw(0, 0);
+        }
 
         printMap();
         canPrint = false;

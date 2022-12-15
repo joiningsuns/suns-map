@@ -4,8 +4,8 @@
 #include "ofxHTTP.h"
 #include "Map.h"
 
-#define MAP_WIDTH 2000
-#define MAP_HEIGHT 2000
+#define MAP_WIDTH 5000
+#define MAP_HEIGHT 5000
 #define ROWS_NUM 100
 #define COLS_NUM 100
 #define AFFECTED_DISTANCE 70

@@ -46,6 +46,7 @@ Marker::Marker(int gen, string status, string cluster, float lng, float lat)
         shape.curveTo(points.at(i));
     }
     shape.close();
+    shape.setCurveResolution(60);
 
     if (cluster == "Draught")
     {
@@ -89,12 +90,13 @@ void Marker::update(int latestGen)
         {
             r.curveTo(points.at(j));
         }
-        float s = 1 + (i + 1) * 0.3;
+        float s = 1 + (i + 1) * 0.1;
         r.scale(s, s);
         r.setStrokeWidth(2);
         r.setFilled(false);
         r.setStrokeColor(fillColor);
         r.close();
+        r.setCurveResolution(60);
         rings.push_back(r);
         i++;
     }
