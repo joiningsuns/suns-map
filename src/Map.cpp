@@ -12,7 +12,7 @@ void Map::setup(string _mode)
     mode = _mode;
 
     //-- allocating data for drawing into fbo
-    fbo.allocate(MAP_WIDTH, MAP_HEIGHT, GL_RGBA);
+    fbo.allocate(MAP_WIDTH, MAP_HEIGHT, GL_RGB);
     fbo.begin();
     ofClear(255, 255, 255);
     fbo.end();
@@ -111,8 +111,8 @@ void Map::printMap()
     ofLog() << "printing image";
     ofPixels pix;
     ofImage img;
-    pix.allocate(MAP_WIDTH, MAP_HEIGHT, OF_PIXELS_RGBA);
-    img.allocate(MAP_WIDTH, MAP_HEIGHT, OF_IMAGE_COLOR_ALPHA);
+    pix.allocate(MAP_WIDTH, MAP_HEIGHT, OF_PIXELS_RGB);
+    img.allocate(MAP_WIDTH, MAP_HEIGHT, OF_IMAGE_COLOR);
 
     fbo.readToPixels(pix);
     img.setFromPixels(pix);
