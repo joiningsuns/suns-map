@@ -21,11 +21,11 @@ Marker::Marker(int gen, string status, string cluster, float lng, float lat)
 
     alpha = 50;
 
-    draught_color = Map::YELLOW;
+    draught_color = Map::MUD;
     symbiosis_color = Map::GREEN;
-    footprints_color = Map::RED;
+    footprints_color = Map::CORAL;
     first_times_color = Map::BLUE;
-    cracks_color = Map::ORANGE;
+    cracks_color = Map::PURPLE;
 
     for (float i = 0; i < TWO_PI; i += 0.01)
     {
@@ -77,7 +77,7 @@ Marker::Marker(int gen, string status, string cluster, float lng, float lat)
 
 void Marker::update(int latestGen)
 {
-    alpha = 100 - (generation * 2);
+    alpha = ofClamp(50 - (generation * 2), 5, 50);
     fillColor.a = alpha;
     generationGap = latestGen - generation;
 
@@ -93,8 +93,8 @@ void Marker::update(int latestGen)
         float s = 1 + (i + 1) * 0.1;
         r.scale(s, s);
         r.setStrokeWidth(2);
-        r.setFilled(false);
-        r.setStrokeColor(fillColor);
+        r.setFilled(true);
+        r.setColor(fillColor);
         r.close();
         r.setCurveResolution(60);
         rings.push_back(r);

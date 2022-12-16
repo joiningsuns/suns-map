@@ -52,7 +52,7 @@ void ofApp::keyPressed(int key)
     switch (key)
     {
     case 110: //-- n
-        addMarkers(30);
+        addMarkers(90);
         break;
     case 112:
         map.printMap();

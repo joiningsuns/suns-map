@@ -12,6 +12,12 @@ public:
     static ofColor ORANGE;
     static ofColor RED;
     static ofColor NONE;
+    static ofColor PINK;
+    static ofColor MUD;
+    static ofColor PURPLE;
+    static ofColor CORAL;
+    static ofColor SAND;
+    static ofColor AMBER;
 
 
     void setup(string mode);
@@ -29,4 +35,5 @@ private:
     bool canPrint = false;
     bool canDraw = true;
     int latestGeneration;
+    int markerDistance = 900;
 };
