@@ -48,7 +48,7 @@ Marker::Marker(int gen, string status, string cluster, float lng, float lat)
     shape.close();
     shape.setCurveResolution(60);
 
-    if (cluster == "Draught")
+    if (cluster == "Drought")
     {
         fillColor = ofColor(draught_color, alpha);
     }
