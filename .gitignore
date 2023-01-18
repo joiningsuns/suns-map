@@ -3,7 +3,9 @@
 
 # Compiled Object files
 obj/
-bin/
+bin/data/*
+bin/suns-map
+!bin/data/textures/
 
 *.slo
 *.lo

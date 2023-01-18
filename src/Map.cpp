@@ -45,52 +45,53 @@ void Map::update()
         m.update(latestGeneration);
     }
 
-    connections.clear();
-    for (Marker m1 : markers)
-    {
-        for (Marker m2 : markers)
-        {
-            if (m1.cluster == m2.cluster && m1.pos.distance(m2.pos) < markerDistance)
-            {
-                float r = ofRandom(10);
-                if (r > 5)
-                {
-                    Connection c = Connection(m1.pos, m2.pos);
-                    connections.push_back(c);
-                }
-            }
-        }
-    }
+    // connections.clear();
+    // for (Marker m1 : markers)
+    // {
+    //     for (Marker m2 : markers)
+    //     {
+    //         if (m1.cluster == m2.cluster && m1.pos.distance(m2.pos) < markerDistance)
+    //         {
+    //             float r = ofRandom(10);
+    //             if (r > 5)
+    //             {
+    //                 Connection c = Connection(m1.pos, m2.pos);
+    //                 connections.push_back(c);
+    //             }
+    //         }
+    //     }
+    // }
 
     canPrint = true;
 }
 
 void Map::draw()
 {
+
+    fbo.begin();
+    drawBackground();
+
+    ofPushMatrix();
+    ofTranslate(MAP_WIDTH / 2, MAP_HEIGHT / 2);
+    for (Marker m : markers)
+    {
+        m.draw();
+    }
+
+    for (Connection c : connections)
+    {
+        c.draw();
+    }
+    ofPopMatrix();
+    fbo.end();
+
+    if (canDraw)
+    {
+        fbo.draw(0, 0);
+    }
+
     if (canPrint)
     {
-        fbo.begin();
-        drawBackground();
-
-        ofPushMatrix();
-        ofTranslate(MAP_WIDTH / 2, MAP_HEIGHT / 2);
-        for (Marker m : markers)
-        {
-            m.draw();
-        }
-
-        for (Connection c : connections)
-        {
-            c.draw();
-        }
-        ofPopMatrix();
-        fbo.end();
-
-        if (canDraw)
-        {
-            fbo.draw(0, 0);
-        }
-
         printMap();
         canPrint = false;
     }
@@ -125,8 +126,8 @@ void Map::printMap()
 
     if (mode == "dev")
     {
-        img.save(ofGetTimestampString() + "_map.png");
-        img.save("map.png");
+        img.save("output/"+ ofGetTimestampString() + "_map.png");
+        img.save("output/map.png");
     }
     else if (mode == "prod")
     {
