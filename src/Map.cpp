@@ -102,7 +102,8 @@ void Map::drawBackground()
 
 void Map::printMap()
 {
-    ofLog() << "printing image";
+    string fname = ofGetTimestampString() + "_map.png";
+    
     ofPixels pix;
     ofImage img;
     pix.allocate(MAP_WIDTH, MAP_HEIGHT, OF_PIXELS_RGB);
@@ -113,18 +114,20 @@ void Map::printMap()
 
     if (mode == "dev")
     {
-        img.save("output/" + ofGetTimestampString() + "_map.png");
+        img.save("output/" + fname);
         img.save("output/map.png");
     }
     else if (mode == "prod")
     {
-        img.save("/var/www/" + ofGetTimestampString() + "_map.png");
+        img.save("/var/www/" + fname);
         img.save("/var/www/map.png");
     }
     else
     {
         ofLog() << "Wrong mode specified, not writing to file";
     }
+
+    ofLog() << "printed image: " << fname;
 }
 
 void Map::loadTextures()
