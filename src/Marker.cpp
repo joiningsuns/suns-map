@@ -14,12 +14,20 @@ Marker::Marker(int gen, string status, string cluster, float lng, float lat)
     ofVec3f p = ofVec3f(lng, lat);
 
     pos = p * m;
-    baseRadius = 80;
+    baseRadius = 30;
     baseOffset = ofRandom(20);
     radius = baseRadius + baseOffset;
     generationGap = 0;
 
-    alpha = 50;
+    alpha = 255;
+    blendAlpha = 50;
+    blendColor = ofColor(255, 0, 0, blendAlpha);
+
+    rotationFactor = ofRandom(360);
+    scaleFactor = ofRandom(1, 2);
+
+    texOffsetX = ofRandom(0, 400);
+    texOffsetY = ofRandom(0, 400);
 
     draught_color = Map::MUD;
     symbiosis_color = Map::GREEN;
@@ -27,97 +35,118 @@ Marker::Marker(int gen, string status, string cluster, float lng, float lat)
     first_times_color = Map::BLUE;
     cracks_color = Map::PURPLE;
 
-    for (float i = 0; i < TWO_PI; i += 0.01)
+    shape = determineShape(cluster);
+    shape.scale(scaleFactor, scaleFactor);
+    shape.setFilled(true);
+
+    //-- set texture
+    if (cluster == "Draught")
     {
-        int r = radius * (1 + ofNoise(i + baseOffset));
-        ofVec2f p = ofVec2f(sin(i) * r, cos(i) * r);
-
-        // lerp to get a smooth wrap
-        if (i > TWO_PI * 0.925f)
-        {
-            p.interpolate(points.at(0), (i / TWO_PI));
-        }
-
-        points.push_back(p);
-    }
-
-    for (int i = 0; i < points.size(); i++)
-    {
-        shape.curveTo(points.at(i));
-    }
-    shape.close();
-    shape.setCurveResolution(60);
-
-    if (cluster == "Drought")
-    {
-        fillColor = ofColor(draught_color, alpha);
+        tex = Map::TEX_BACTERIA;
     }
     else if (cluster == "Symbiosis")
     {
-        fillColor = ofColor(symbiosis_color, alpha);
+        tex = Map::TEX_BARK;
     }
     else if (cluster == "Footprints")
     {
-        fillColor = ofColor(footprints_color, alpha);
+        tex = Map::TEX_CRACK;
     }
     else if (cluster == "Combining First Times")
     {
-        fillColor = ofColor(first_times_color, alpha);
+        tex = Map::TEX_SAND;
     }
     else if (cluster == "Cracks")
     {
-        fillColor = ofColor(cracks_color, alpha);
+        tex = Map::TEX_WIND;
+    }
+    else if (cluster == "Prompts")
+    {
+        tex = Map::TEX_WOOL;
     }
     else
     {
         ofLog() << "cluster not recognized: " << cluster;
-        fillColor = ofColor(0, 0, 0);
+        tex = Map::TEX_BACTERIA;
+    }
+
+    mesh = shape.getTessellation();
+    for (auto &v : mesh.getVertices())
+    {
+        mesh.addTexCoord(tex.getCoordFromPoint(v.x + texOffsetX, v.y + texOffsetY));
+        mesh.addColor(ofColor::white);
     }
 }
 
 void Marker::update(int latestGen)
 {
-    alpha = ofClamp(50 - (generation * 2), 5, 50);
-    fillColor.a = alpha;
-    generationGap = latestGen - generation;
+    // alpha = ofClamp(50 - (generation * 2), 5, 50);
+    // fillColor.a = alpha;
+    // generationGap = latestGen - generation;
 
-    rings.clear();
-    int i = 0;
-    while (i < generationGap)
-    {
-        ofPath r;
-        for (int j = 0; j < points.size(); j++)
-        {
-            r.curveTo(points.at(j));
-        }
-        float s = 1 + (i + 1) * 0.1;
-        r.scale(s, s);
-        r.setStrokeWidth(2);
-        r.setFilled(true);
-        r.setColor(fillColor);
-        r.close();
-        r.setCurveResolution(60);
-        rings.push_back(r);
-        i++;
-    }
+    shape.setFillColor(blendColor);
 }
 
 void Marker::draw()
 {
     ofPushMatrix();
     ofTranslate(pos);
+    ofRotate(rotationFactor);
+    ofScale(scaleFactor);
 
-    //-- draw the marker
-    shape.setFilled(true);
-    shape.setFillColor(fillColor);
-    shape.setStrokeColor(Map::NONE);
+    tex.bind();
+    mesh.draw();
+    tex.unbind();
+
+    ofEnableBlendMode(OF_BLENDMODE_SCREEN);
     shape.draw();
-
-    // -- draw the generation lines
-    for (auto r : rings)
-    {
-        r.draw();
-    }
+    ofDisableBlendMode();
 
     ofPopMatrix();
+}
+
+ofPath Marker::determineShape(string cluster)
+{
+    ofPath p;
+
+    if (cluster == "Draught")
+    {
+        p.circle(0, 0, 30);
+    }
+    else if (cluster == "Symbiosis")
+    {
+        p.moveTo(0, 0);
+        p.curveTo(10, 10);
+        p.curveTo(30, 5);
+        p.curveTo(80, 20);
+        p.curveTo(90, 130);
+        p.curveTo(105, 210);
+        p.curveTo(60, 180);
+        p.curveTo(35, 70);
+        p.curveTo(10, 10);
+        p.close();
+    }
+    else if (cluster == "Footprints")
+    {
+        p.rectangle(0, 0, 40, 40);
+    }
+    else if (cluster == "Combining First Times")
+    {
+        p.triangle(ofVec2f(-10, 0), ofVec2f(5, 5), ofVec2f(10, 0));
+    }
+    else if (cluster == "Cracks")
+    {
+        p.ellipse(ofVec2f(0, 0), 40, 10);
+    }
+    else if (cluster == "Prompts")
+    {
+        p.rectangle(0, 0, 80, 40);
+    }
+    else
+    {
+        ofLog() << "cluster not recognized: " << cluster;
+        p.triangle(ofVec2f(-30, 0), ofVec2f(5, 5), ofVec2f(30, 0));
+    }
+
+    return p;
 }

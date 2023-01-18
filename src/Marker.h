@@ -14,6 +14,7 @@ public:
 
     void update(int latestGen);
     void draw();
+    ofPath determineShape(string cluster);
 
     float radius;
     float baseRadius;
@@ -21,16 +22,24 @@ public:
     int alpha;
     int generationGap;
 
+    float rotationFactor;
+    float scaleFactor;
+
+    float texOffsetX;
+    float texOffsetY;
+
     ofColor draught_color;
     ofColor symbiosis_color;
     ofColor footprints_color;
     ofColor first_times_color;
     ofColor cracks_color;
 
-    ofColor fillColor;
+    ofColor blendColor;
+    int blendAlpha;
     ofPath shape;
-    vector<ofPath> rings;
-    vector<ofVec2f> points;
+    ofMesh mesh;
+
+    ofTexture tex;
 private:
     ofMatrix4x4 m;
 };
