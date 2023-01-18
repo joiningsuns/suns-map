@@ -26,6 +26,11 @@ void ofApp::setup()
     clusters.push_back("Combining First Times");
     clusters.push_back("Cracks");
 
+    statuses.push_back("open");
+    statuses.push_back("pending");
+    statuses.push_back("completed");
+    statuses.push_back("sacrificed");
+
     server_settings.setPort(8080);
     server.setup(server_settings);
     server.postRoute().registerPostEvents(this);
@@ -74,9 +79,10 @@ void ofApp::addMarkers(int num)
     {
 
         int gen = ofRandom(4);
-        string status = "open";
-        int r = ofRandom(clusters.size());
-        string cluster = clusters.at(r);
+        int rs = ofRandom(statuses.size());
+        string status = statuses.at(rs);
+        int rc = ofRandom(clusters.size());
+        string cluster = clusters.at(rc);
         float lat = ofRandom(MAP_WIDTH) - MAP_WIDTH / 2;
         float lng = ofRandom(MAP_WIDTH) - MAP_WIDTH / 2;
 

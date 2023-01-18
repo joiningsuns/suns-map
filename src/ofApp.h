@@ -36,6 +36,7 @@ public:
 
 	vector<string> args;
 	vector<string> clusters;
+	vector<string> statuses;
 
 	Map map;
 };
