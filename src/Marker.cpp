@@ -12,16 +12,13 @@ Marker::Marker(int gen, string status, string cluster, float lng, float lat)
     m.translate(-MAP_WIDTH / 4, MAP_HEIGHT / 4, 0);
     m.scale(2, 2, 2);
     ofVec3f p = ofVec3f(lng, lat);
-
     pos = p * m;
-    baseRadius = 30;
-    baseOffset = ofRandom(20);
-    radius = baseRadius + baseOffset;
+
     generationGap = 0;
 
     alpha = 255;
     blendAlpha = 50;
-    blendColor = ofColor(255, 0, 0, blendAlpha);
+    blendColor = determineColor(status);
 
     rotationFactor = ofRandom(360);
     scaleFactor = ofRandom(1, 2);
@@ -40,35 +37,7 @@ Marker::Marker(int gen, string status, string cluster, float lng, float lat)
     shape.setFilled(true);
 
     //-- set texture
-    if (cluster == "Draught")
-    {
-        tex = Map::TEX_BACTERIA;
-    }
-    else if (cluster == "Symbiosis")
-    {
-        tex = Map::TEX_BARK;
-    }
-    else if (cluster == "Footprints")
-    {
-        tex = Map::TEX_CRACK;
-    }
-    else if (cluster == "Combining First Times")
-    {
-        tex = Map::TEX_SAND;
-    }
-    else if (cluster == "Cracks")
-    {
-        tex = Map::TEX_WIND;
-    }
-    else if (cluster == "Prompts")
-    {
-        tex = Map::TEX_WOOL;
-    }
-    else
-    {
-        ofLog() << "cluster not recognized: " << cluster;
-        tex = Map::TEX_BACTERIA;
-    }
+    tex = determineTexture(cluster);
 
     mesh = shape.getTessellation();
     for (auto &v : mesh.getVertices())
@@ -149,4 +118,68 @@ ofPath Marker::determineShape(string cluster)
     }
 
     return p;
+}
+
+ofTexture Marker::determineTexture(string cluster)
+{
+    ofTexture t;
+    if (cluster == "Draught")
+    {
+        t = Map::TEX_BACTERIA;
+    }
+    else if (cluster == "Symbiosis")
+    {
+        t = Map::TEX_BARK;
+    }
+    else if (cluster == "Footprints")
+    {
+        t = Map::TEX_CRACK;
+    }
+    else if (cluster == "Combining First Times")
+    {
+        t = Map::TEX_SAND;
+    }
+    else if (cluster == "Cracks")
+    {
+        t = Map::TEX_WIND;
+    }
+    else if (cluster == "Prompts")
+    {
+        t = Map::TEX_WOOL;
+    }
+    else
+    {
+        ofLog() << "cluster not recognized: " << cluster;
+        t = Map::TEX_BACTERIA;
+    }
+
+    return t;
+}
+
+ofColor Marker::determineColor(string status)
+{
+    ofColor c;
+    if (status == "open")
+    {
+        c = ofColor(100, 200, 100, blendAlpha);
+    }
+    else if (status == "pending")
+    {
+        c = ofColor(100, 100, 100, blendAlpha);
+    }
+    else if (status == "completed")
+    {
+        c = ofColor(0, 0, 0, 255);
+    }
+    else if (status == "sacrificed")
+    {
+        c = ofColor(0, 0, 0, 55);
+    }
+    else
+    {
+        ofLog() << "status not recognized: " << status;
+        c = ofColor(0, 0, 0, 255);
+    }
+
+    return c;
 }

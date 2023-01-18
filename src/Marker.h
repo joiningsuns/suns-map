@@ -14,11 +14,7 @@ public:
 
     void update(int latestGen);
     void draw();
-    ofPath determineShape(string cluster);
 
-    float radius;
-    float baseRadius;
-    float baseOffset;
     int alpha;
     int generationGap;
 
@@ -40,6 +36,10 @@ public:
     ofMesh mesh;
 
     ofTexture tex;
+
 private:
     ofMatrix4x4 m;
+    ofPath determineShape(string cluster);
+    ofTexture determineTexture(string cluster);
+    ofColor determineColor(string status);
 };
