@@ -146,10 +146,10 @@ void Map::loadTextures()
     }
 
     if(TEX_WIND.bAllocated() == false){
-        ofLoadImage(TEX_WIND, "textures/wind.png");
+        ofLoadImage(TEX_WIND, "textures/windbrush.png");
     }
 
     if(TEX_WOOL.bAllocated() == false){
-        ofLoadImage(TEX_WOOL, "textures/wool.png");
+        ofLoadImage(TEX_WOOL, "textures/wool_cloth.png");
     }
 }
