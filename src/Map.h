@@ -19,12 +19,20 @@ public:
     static ofColor SAND;
     static ofColor AMBER;
 
+    static ofTexture TEX_BARK;
+    static ofTexture TEX_BACTERIA;
+    static ofTexture TEX_CRACK;
+    static ofTexture TEX_SAND;
+    static ofTexture TEX_WIND;
+    static ofTexture TEX_WOOL;
+
 
     void setup(string mode);
     void update();
     void draw();
     void drawBackground();
     void printMap();
+    void loadTextures();
 
     vector<Marker> markers;
     vector<Connection> connections;

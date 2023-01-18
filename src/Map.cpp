@@ -13,9 +13,17 @@ ofColor Map::CORAL = ofColor(255, 156, 150);
 ofColor Map::SAND = ofColor(255, 251, 235);
 ofColor Map::AMBER = ofColor(120, 53, 15, 50);
 
+ofTexture Map::TEX_BARK;
+ofTexture Map::TEX_BACTERIA;
+ofTexture Map::TEX_CRACK;
+ofTexture Map::TEX_SAND;
+ofTexture Map::TEX_WIND;
+ofTexture Map::TEX_WOOL;
+
 void Map::setup(string _mode)
 {
     mode = _mode;
+    loadTextures();
 
     //-- allocating data for drawing into fbo
     fbo.allocate(MAP_WIDTH, MAP_HEIGHT, GL_RGB);
@@ -45,23 +53,6 @@ void Map::update()
         m.update(latestGeneration);
     }
 
-    // connections.clear();
-    // for (Marker m1 : markers)
-    // {
-    //     for (Marker m2 : markers)
-    //     {
-    //         if (m1.cluster == m2.cluster && m1.pos.distance(m2.pos) < markerDistance)
-    //         {
-    //             float r = ofRandom(10);
-    //             if (r > 5)
-    //             {
-    //                 Connection c = Connection(m1.pos, m2.pos);
-    //                 connections.push_back(c);
-    //             }
-    //         }
-    //     }
-    // }
-
     canPrint = true;
 }
 
@@ -76,11 +67,6 @@ void Map::draw()
     for (Marker m : markers)
     {
         m.draw();
-    }
-
-    for (Connection c : connections)
-    {
-        c.draw();
     }
     ofPopMatrix();
     fbo.end();
@@ -99,14 +85,15 @@ void Map::draw()
 
 void Map::drawBackground()
 {
-    ofBackground(Map::SAND);
-    ofSetColor(Map::AMBER);
+    ofBackground(ofColor::white);
+    ofSetColor(ofColor::lightGray);
     ofFill();
     int gridStep = 15;
     int rad = 3;
-    for (int x = 0; x < MAP_WIDTH; x += gridStep)
+    int pad = 10;
+    for (int x = pad; x < MAP_WIDTH-pad; x += gridStep)
     {
-        for (int y = 0; y < MAP_WIDTH; y += gridStep)
+        for (int y = pad; y < MAP_WIDTH-pad; y += gridStep)
         {
             ofDrawEllipse(x, y, rad, rad);
         }
@@ -126,7 +113,7 @@ void Map::printMap()
 
     if (mode == "dev")
     {
-        img.save("output/"+ ofGetTimestampString() + "_map.png");
+        img.save("output/" + ofGetTimestampString() + "_map.png");
         img.save("output/map.png");
     }
     else if (mode == "prod")
@@ -137,5 +124,32 @@ void Map::printMap()
     else
     {
         ofLog() << "Wrong mode specified, not writing to file";
+    }
+}
+
+void Map::loadTextures()
+{
+    if(TEX_BARK.bAllocated() == false){
+        ofLoadImage(TEX_BARK, "textures/bark.png");
+    }
+
+    if(TEX_BACTERIA.bAllocated() == false){
+        ofLoadImage(TEX_BACTERIA, "textures/bacteria.png");
+    }
+
+    if(TEX_CRACK.bAllocated() == false){
+        ofLoadImage(TEX_CRACK, "textures/crack.png");
+    }
+
+    if(TEX_SAND.bAllocated() == false){
+        ofLoadImage(TEX_SAND, "textures/sand.png");
+    }
+
+    if(TEX_WIND.bAllocated() == false){
+        ofLoadImage(TEX_WIND, "textures/wind.png");
+    }
+
+    if(TEX_WOOL.bAllocated() == false){
+        ofLoadImage(TEX_WOOL, "textures/wool.png");
     }
 }
