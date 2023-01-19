@@ -17,11 +17,14 @@ Marker::Marker(int gen, string status, string cluster, float lng, float lat)
     generationGap = 0;
 
     alpha = 255;
-    blendAlpha = 50;
+    blendAlpha = 250;
     blendColor = determineColor(status);
 
     rotationFactor = ofRandom(360);
-    scaleFactor = ofRandom(1, 2);
+    //-- todo
+    //-- get the age of the marker
+    //-- determine scale factor based on age and status (old open = small, old completed = large)
+    scaleFactor = ofRandom(1.5, 2);
 
     texOffsetX = ofRandom(0, 400);
     texOffsetY = ofRandom(0, 400);
@@ -97,7 +100,10 @@ ofPath Marker::determineShape(string cluster)
     }
     else if (cluster == "Footprints")
     {
-        p.rectangle(0, 0, 40, 40);
+        p.circle(0, 0, 20);
+        p.circle(30, 25, 22);
+        p.circle(-20, 55, 32);
+        p.circle(20, -55, 35);
     }
     else if (cluster == "Combining First Times")
     {
@@ -125,7 +131,7 @@ ofTexture Marker::determineTexture(string cluster)
     ofTexture t;
     if (cluster == "Draught")
     {
-        t = Map::TEX_BACTERIA;
+        t = Map::TEX_SAND;
     }
     else if (cluster == "Symbiosis")
     {
@@ -133,19 +139,19 @@ ofTexture Marker::determineTexture(string cluster)
     }
     else if (cluster == "Footprints")
     {
-        t = Map::TEX_CRACK;
+        t = Map::TEX_BACTERIA;
     }
     else if (cluster == "Combining First Times")
     {
-        t = Map::TEX_SAND;
+        t = Map::TEX_WOOL;
     }
     else if (cluster == "Cracks")
     {
-        t = Map::TEX_WIND;
+        t = Map::TEX_CRACK;
     }
     else if (cluster == "Prompts")
     {
-        t = Map::TEX_WOOL;
+        t = Map::TEX_WIND;
     }
     else
     {
@@ -165,15 +171,15 @@ ofColor Marker::determineColor(string status)
     }
     else if (status == "pending")
     {
-        c = ofColor(100, 100, 100, blendAlpha);
+        c = ofColor(200, 200, 200, blendAlpha);
     }
     else if (status == "completed")
     {
-        c = ofColor(0, 0, 0, 255);
+        c = ofColor(100,100, 100, blendAlpha);
     }
     else if (status == "sacrificed")
     {
-        c = ofColor(0, 0, 0, 55);
+        c = ofColor(230, 230, 230, blendAlpha);
     }
     else
     {
