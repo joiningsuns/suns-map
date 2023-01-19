@@ -83,20 +83,47 @@ ofPath Marker::determineShape(string cluster)
 
     if (cluster == "Draught")
     {
-        p.circle(0, 0, 30);
+        p.curveTo(0, 30); //-- start from the end
+        p.curveTo(20, 25);
+        p.curveTo(45, 10);
+        p.curveTo(30, -80);
+        p.curveTo(10, -45);
+        p.curveTo(-35, -40);
+        p.curveTo(-15, -5);
+        p.curveTo(-20, 10);
+        p.curveTo(0, 30);
+        p.curveTo(20, 25);
+        p.curveTo(20, 25);
     }
     else if (cluster == "Symbiosis")
     {
-        p.moveTo(0, 0);
-        p.curveTo(10, 10);
-        p.curveTo(30, 5);
-        p.curveTo(80, 20);
-        p.curveTo(90, 130);
-        p.curveTo(105, 210);
-        p.curveTo(60, 180);
-        p.curveTo(35, 70);
-        p.curveTo(10, 10);
-        p.close();
+        p.curveTo(-10, -40);
+        p.curveTo(0, -40);
+        p.curveTo(-20, -20);
+        p.curveTo(-10, 0);
+        p.curveTo(-20, 20);
+        p.curveTo(-40, 30);
+        p.curveTo(-20, 0);
+        p.curveTo(-25, -30);
+        p.curveTo(-10, -40);
+        p.curveTo(0, -40);
+        p.curveTo(0, -40);
+        p.moveTo(0, -40);
+
+        p.moveTo(20, -35);
+        p.moveTo(20, -35);
+        p.curveTo(20, -40);
+        p.curveTo(6, -20);
+        p.curveTo(16, 0);
+        p.curveTo(0, 20);
+        p.curveTo(-20, 30);
+        p.curveTo(0, 0);
+        p.curveTo(-5, -30);
+        p.curveTo(10, -35);
+        p.curveTo(20, -35);
+        p.curveTo(20, -35);
+
+        p.scale(2, 2);
     }
     else if (cluster == "Footprints")
     {
@@ -111,11 +138,19 @@ ofPath Marker::determineShape(string cluster)
     }
     else if (cluster == "Cracks")
     {
-        p.ellipse(ofVec2f(0, 0), 40, 10);
+        p.lineTo(50, -40);
+        p.lineTo(30, -30);
+        p.lineTo(15, -20);
+        p.lineTo(-15, 40);
+        p.lineTo(-30, 5);
+        p.lineTo(-15, 15);
+        p.lineTo(-5, -5);
+        p.lineTo(5, -35);
+        p.lineTo(50, -40);
     }
     else if (cluster == "Prompts")
     {
-        p.rectangle(0, 0, 80, 40);
+        p.circle(0, 0, ofRandom(70, 90));
     }
     else
     {
@@ -175,7 +210,7 @@ ofColor Marker::determineColor(string status)
     }
     else if (status == "completed")
     {
-        c = ofColor(100,100, 100, blendAlpha);
+        c = ofColor(100, 100, 100, blendAlpha);
     }
     else if (status == "sacrificed")
     {
