@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 
-class Marker
+class MapMarker
 {
 public:
     int generation;
@@ -10,7 +10,7 @@ public:
     string cluster;
     ofPoint pos;
 
-    Marker(int gen, string status, string cluster, float lat, float lng);
+    MapMarker(int gen, string status, string cluster, float lat, float lng);
 
     void update(int latestGen);
     void draw();

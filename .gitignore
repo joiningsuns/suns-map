@@ -27,3 +27,6 @@ bin/suns-map
 *.app
 
 .vscode/
+
+# Xcode files
+*.xcodeproj/*

@@ -34,7 +34,7 @@ public:
     void printMap();
     void loadTextures();
 
-    vector<Marker> markers;
+    vector<MapMarker> markers;
     vector<Connection> connections;
 
 private:

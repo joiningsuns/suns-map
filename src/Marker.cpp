@@ -1,7 +1,7 @@
 #include "ofApp.h"
 #include "Marker.h"
 
-Marker::Marker(int gen, string status, string cluster, float lng, float lat)
+MapMarker::MapMarker(int gen, string status, string cluster, float lng, float lat)
 {
     generation = gen;
     status = status;
@@ -50,7 +50,7 @@ Marker::Marker(int gen, string status, string cluster, float lng, float lat)
     }
 }
 
-void Marker::update(int latestGen)
+void MapMarker::update(int latestGen)
 {
     // alpha = ofClamp(50 - (generation * 2), 5, 50);
     // fillColor.a = alpha;
@@ -59,7 +59,7 @@ void Marker::update(int latestGen)
     shape.setFillColor(blendColor);
 }
 
-void Marker::draw()
+void MapMarker::draw()
 {
     ofPushMatrix();
     ofTranslate(pos);
@@ -77,7 +77,7 @@ void Marker::draw()
     ofPopMatrix();
 }
 
-ofPath Marker::determineShape(string cluster)
+ofPath MapMarker::determineShape(string cluster)
 {
     ofPath p;
 
@@ -161,7 +161,7 @@ ofPath Marker::determineShape(string cluster)
     return p;
 }
 
-ofTexture Marker::determineTexture(string cluster)
+ofTexture MapMarker::determineTexture(string cluster)
 {
     ofTexture t;
     if (cluster == "Draught")
@@ -197,7 +197,7 @@ ofTexture Marker::determineTexture(string cluster)
     return t;
 }
 
-ofColor Marker::determineColor(string status)
+ofColor MapMarker::determineColor(string status)
 {
     ofColor c;
     if (status == "open")
