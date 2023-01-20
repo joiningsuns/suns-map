@@ -32,7 +32,7 @@ void Map::update()
     fbo.end();
 
     //-- get latest generation
-    for (Marker m : markers)
+    for (MarkerClass m : markers)
     {
         if (m.generation > latestGeneration)
         {
@@ -40,15 +40,15 @@ void Map::update()
         };
     }
 
-    for (Marker &m : markers)
+    for (MarkerClass &m : markers)
     {
         m.update(latestGeneration);
     }
 
     connections.clear();
-    for (Marker m1 : markers)
+    for (MarkerClass m1 : markers)
     {
-        for (Marker m2 : markers)
+        for (MarkerClass m2 : markers)
         {
             if (m1.cluster == m2.cluster && m1.pos.distance(m2.pos) < markerDistance)
             {
@@ -74,7 +74,7 @@ void Map::draw()
 
         ofPushMatrix();
         ofTranslate(MAP_WIDTH / 2, MAP_HEIGHT / 2);
-        for (Marker m : markers)
+        for (MarkerClass m : markers)
         {
             m.draw();
         }

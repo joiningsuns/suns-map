@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 
-class Marker
+class MarkerClass
 {
 public:
     int generation;
@@ -10,7 +10,7 @@ public:
     string cluster;
     ofPoint pos;
 
-    Marker(int gen, string status, string cluster, float lat, float lng);
+    MarkerClass(int gen, string status, string cluster, float lat, float lng);
 
     void update(int latestGen);
     void draw();
@@ -31,6 +31,7 @@ public:
     ofPath shape;
     vector<ofPath> rings;
     vector<ofVec2f> points;
+
 private:
     ofMatrix4x4 m;
 };

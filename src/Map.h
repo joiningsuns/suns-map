@@ -26,7 +26,7 @@ public:
     void drawBackground();
     void printMap();
 
-    vector<Marker> markers;
+    vector<MarkerClass> markers;
     vector<Connection> connections;
 
 private:

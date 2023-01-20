@@ -1,7 +1,7 @@
 #include "ofApp.h"
 #include "Marker.h"
 
-Marker::Marker(int gen, string status, string cluster, float lng, float lat)
+MarkerClass::MarkerClass(int gen, string status, string cluster, float lng, float lat)
 {
     generation = gen;
     status = status;
@@ -75,7 +75,7 @@ Marker::Marker(int gen, string status, string cluster, float lng, float lat)
     }
 }
 
-void Marker::update(int latestGen)
+void MarkerClass::update(int latestGen)
 {
     alpha = ofClamp(50 - (generation * 2), 5, 50);
     fillColor.a = alpha;
@@ -102,7 +102,7 @@ void Marker::update(int latestGen)
     }
 }
 
-void Marker::draw()
+void MarkerClass::draw()
 {
     ofPushMatrix();
     ofTranslate(pos);
