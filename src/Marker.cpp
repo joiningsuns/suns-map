@@ -81,7 +81,7 @@ ofPath Marker::determineShape(string cluster)
 {
     ofPath p;
 
-    if (cluster == "Draught")
+    if (cluster == "Drought")
     {
         p.curveTo(0, 30); //-- start from the end
         p.curveTo(20, 25);
@@ -164,7 +164,7 @@ ofPath Marker::determineShape(string cluster)
 ofTexture Marker::determineTexture(string cluster)
 {
     ofTexture t;
-    if (cluster == "Draught")
+    if (cluster == "Drought")
     {
         t = Map::TEX_SAND;
     }

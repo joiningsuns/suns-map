@@ -20,7 +20,7 @@ void ofApp::setup()
         MODE = "dev";
     }
 
-    clusters.push_back("Draught");
+    clusters.push_back("Drought");
     clusters.push_back("Symbiosis");
     clusters.push_back("Footprints");
     clusters.push_back("Combining First Times");
