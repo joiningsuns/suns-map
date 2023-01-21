@@ -26,8 +26,8 @@ Marker::Marker(int gen, string status, string cluster, float lng, float lat)
     //-- determine scale factor based on age and status (old open = small, old completed = large)
     scaleFactor = ofRandom(1.5, 2);
 
-    texOffsetX = ofRandom(0, 400);
-    texOffsetY = ofRandom(0, 400);
+    texOffsetX = ofRandom(80, 400);
+    texOffsetY = ofRandom(80, 400);
 
     draught_color = Map::MUD;
     symbiosis_color = Map::GREEN;
@@ -134,7 +134,8 @@ ofPath Marker::determineShape(string cluster)
     }
     else if (cluster == "Combining First Times")
     {
-        p.triangle(ofVec2f(-10, 0), ofVec2f(5, 5), ofVec2f(10, 0));
+        p.ellipse(ofVec2f(-15, 0), 60, 90);
+        p.ellipse(ofVec2f(15, 12), 65, 80);
     }
     else if (cluster == "Cracks")
     {
