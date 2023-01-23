@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 
-class Marker
+class MapMarker
 {
 public:
     int generation;
@@ -10,7 +10,7 @@ public:
     string cluster;
     ofPoint pos;
 
-    Marker(int gen, string status, string cluster, float lat, float lng);
+    MapMarker(int gen, string status, string cluster, float lat, float lng);
 
     void update(int latestGen);
     void draw();
@@ -20,6 +20,9 @@ public:
 
     float rotationFactor;
     float scaleFactor;
+
+    float getWidth();
+    float getHeight();
 
     float texOffsetX;
     float texOffsetY;
@@ -33,13 +36,18 @@ public:
     ofColor blendColor;
     int blendAlpha;
     ofPath shape;
-    ofMesh mesh;
 
     ofTexture tex;
+    ofMesh mesh;
+
+    ofTexture mask;
+
+    ofFbo temp;
 
 private:
     ofMatrix4x4 m;
     ofPath determineShape(string cluster);
     ofTexture determineTexture(string cluster);
+    ofTexture determineMask(string cluster);
     ofColor determineColor(string status);
 };

@@ -5,7 +5,6 @@
 class Map
 {
 public:
-
     static ofColor YELLOW;
     static ofColor BLUE;
     static ofColor GREEN;
@@ -26,6 +25,12 @@ public:
     static ofTexture TEX_WIND;
     static ofTexture TEX_WOOL;
 
+    static ofTexture MASK_BARK;
+    static ofTexture MASK_BACTERIA;
+    static ofTexture MASK_CRACK;
+    static ofTexture MASK_SAND;
+    static ofTexture MASK_WIND;
+    static ofTexture MASK_WOOL;
 
     void setup(string mode);
     void update();
@@ -33,8 +38,9 @@ public:
     void drawBackground();
     void printMap();
     void loadTextures();
+    void loadMasks();
 
-    vector<Marker> markers;
+    vector<MapMarker> markers;
     vector<Connection> connections;
 
 private:

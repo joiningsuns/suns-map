@@ -86,7 +86,7 @@ void ofApp::addMarkers(int num)
         float lat = ofRandom(MAP_WIDTH) - MAP_WIDTH / 2;
         float lng = ofRandom(MAP_WIDTH) - MAP_WIDTH / 2;
 
-        Marker m = Marker(gen, status, cluster, lat, lng);
+        MapMarker m = MapMarker(gen, status, cluster, lat, lng);
         map.markers.push_back(m);
     }
 
@@ -117,7 +117,7 @@ void ofApp::onHTTPFormEvent(ofxHTTP::PostFormEventArgs &args)
         float lat = ofToFloat(val[3]);
         float lng = ofToFloat(val[4]);
 
-        Marker m = Marker(gen, status, cluster, lat, lng);
+        MapMarker m = MapMarker(gen, status, cluster, lat, lng);
         map.markers.push_back(m);
     }
 
