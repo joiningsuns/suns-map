@@ -1,7 +1,7 @@
 #include "ofApp.h"
 #include "Marker.h"
 
-Marker::Marker(int gen, string status, string cluster, float lng, float lat)
+MapMarker::MapMarker(int gen, string status, string cluster, float lng, float lat)
 {
     generation = gen;
     status = status;
@@ -41,16 +41,28 @@ Marker::Marker(int gen, string status, string cluster, float lng, float lat)
 
     //-- set texture
     tex = determineTexture(cluster);
+    mask = determineMask(cluster);
 
     mesh = shape.getTessellation();
-    for (auto &v : mesh.getVertices())
-    {
-        mesh.addTexCoord(tex.getCoordFromPoint(v.x + texOffsetX, v.y + texOffsetY));
-        mesh.addColor(ofColor::white);
-    }
+
+    temp.allocate(getWidth(), getHeight(), GL_RGBA);
 }
 
-void Marker::update(int latestGen)
+float MapMarker::getWidth()
+{
+    // Get the width of the shape
+
+    return (2048);
+}
+
+float MapMarker::getHeight()
+{
+    // Get the height of the shape
+
+    return (2048);
+}
+
+void MapMarker::update(int latestGen)
 {
     // alpha = ofClamp(50 - (generation * 2), 5, 50);
     // fillColor.a = alpha;
@@ -59,25 +71,41 @@ void Marker::update(int latestGen)
     shape.setFillColor(blendColor);
 }
 
-void Marker::draw()
+void MapMarker::draw()
 {
+
+    temp.begin();
+
+    ofClear(0, 0, 0, 0);
+    tex.draw(0, 0);
+
+    ofSetColor(blendColor);
+    ofEnableBlendMode(OF_BLENDMODE_SCREEN);
+    ofDrawRectangle(0, 0, tex.getWidth(), tex.getHeight());
+
+    temp.end();
+
+    temp.getTexture().setAlphaMask(mask);
+
+    for (auto &v : mesh.getVertices())
+    {
+        mesh.addTexCoord(temp.getTexture().getCoordFromPoint(v.x + texOffsetX, v.y + texOffsetY));
+        mesh.addColor(ofColor::white);
+    }
+
     ofPushMatrix();
     ofTranslate(pos);
     ofRotate(rotationFactor);
     ofScale(scaleFactor);
 
-    tex.bind();
+    temp.getTexture().bind();
     mesh.draw();
-    tex.unbind();
-
-    ofEnableBlendMode(OF_BLENDMODE_SCREEN);
-    shape.draw();
-    ofDisableBlendMode();
+    temp.getTexture().unbind();
 
     ofPopMatrix();
 }
 
-ofPath Marker::determineShape(string cluster)
+ofPath MapMarker::determineShape(string cluster)
 {
     ofPath p;
 
@@ -161,16 +189,16 @@ ofPath Marker::determineShape(string cluster)
     return p;
 }
 
-ofTexture Marker::determineTexture(string cluster)
+ofTexture MapMarker::determineTexture(string cluster)
 {
     ofTexture t;
     if (cluster == "Drought")
     {
-        t = Map::TEX_SAND;
+        t = Map::TEX_BACTERIA;
     }
     else if (cluster == "Symbiosis")
     {
-        t = Map::TEX_BARK;
+        t = Map::TEX_BACTERIA;
     }
     else if (cluster == "Footprints")
     {
@@ -178,15 +206,15 @@ ofTexture Marker::determineTexture(string cluster)
     }
     else if (cluster == "Combining First Times")
     {
-        t = Map::TEX_WOOL;
+        t = Map::TEX_BACTERIA;
     }
     else if (cluster == "Cracks")
     {
-        t = Map::TEX_CRACK;
+        t = Map::TEX_BACTERIA;
     }
     else if (cluster == "Prompts")
     {
-        t = Map::TEX_WIND;
+        t = Map::TEX_BACTERIA;
     }
     else
     {
@@ -197,7 +225,43 @@ ofTexture Marker::determineTexture(string cluster)
     return t;
 }
 
-ofColor Marker::determineColor(string status)
+ofTexture MapMarker::determineMask(string cluster)
+{
+    ofTexture t;
+    if (cluster == "Drought")
+    {
+        t = Map::MASK_BACTERIA;
+    }
+    else if (cluster == "Symbiosis")
+    {
+        t = Map::MASK_BACTERIA;
+    }
+    else if (cluster == "Footprints")
+    {
+        t = Map::MASK_BACTERIA;
+    }
+    else if (cluster == "Combining First Times")
+    {
+        t = Map::MASK_BACTERIA;
+    }
+    else if (cluster == "Cracks")
+    {
+        t = Map::MASK_BACTERIA;
+    }
+    else if (cluster == "Prompts")
+    {
+        t = Map::MASK_BACTERIA;
+    }
+    else
+    {
+        ofLog() << "cluster not recognized: " << cluster;
+        t = Map::MASK_BACTERIA;
+    }
+
+    return t;
+}
+
+ofColor MapMarker::determineColor(string status)
 {
     ofColor c;
     if (status == "open")

@@ -20,10 +20,18 @@ ofTexture Map::TEX_SAND;
 ofTexture Map::TEX_WIND;
 ofTexture Map::TEX_WOOL;
 
+ofTexture Map::MASK_BARK;
+ofTexture Map::MASK_BACTERIA;
+ofTexture Map::MASK_CRACK;
+ofTexture Map::MASK_SAND;
+ofTexture Map::MASK_WIND;
+ofTexture Map::MASK_WOOL;
+
 void Map::setup(string _mode)
 {
     mode = _mode;
     loadTextures();
+    loadMasks();
 
     //-- allocating data for drawing into fbo
     fbo.allocate(MAP_WIDTH, MAP_HEIGHT, GL_RGB);
@@ -40,7 +48,7 @@ void Map::update()
     fbo.end();
 
     //-- get latest generation
-    for (Marker m : markers)
+    for (MapMarker m : markers)
     {
         if (m.generation > latestGeneration)
         {
@@ -48,7 +56,7 @@ void Map::update()
         };
     }
 
-    for (Marker &m : markers)
+    for (MapMarker &m : markers)
     {
         m.update(latestGeneration);
     }
@@ -64,7 +72,7 @@ void Map::draw()
 
     ofPushMatrix();
     ofTranslate(MAP_WIDTH / 2, MAP_HEIGHT / 2);
-    for (Marker m : markers)
+    for (MapMarker m : markers)
     {
         m.draw();
     }
@@ -91,9 +99,9 @@ void Map::drawBackground()
     int gridStep = 15;
     int rad = 3;
     int pad = 10;
-    for (int x = pad; x < MAP_WIDTH-pad; x += gridStep)
+    for (int x = pad; x < MAP_WIDTH - pad; x += gridStep)
     {
-        for (int y = pad; y < MAP_WIDTH-pad; y += gridStep)
+        for (int y = pad; y < MAP_WIDTH - pad; y += gridStep)
         {
             ofDrawEllipse(x, y, rad, rad);
         }
@@ -103,7 +111,7 @@ void Map::drawBackground()
 void Map::printMap()
 {
     string fname = ofGetTimestampString() + "_map.png";
-    
+
     ofPixels pix;
     ofImage img;
     pix.allocate(MAP_WIDTH, MAP_HEIGHT, OF_PIXELS_RGB);
@@ -132,27 +140,66 @@ void Map::printMap()
 
 void Map::loadTextures()
 {
-    if(TEX_BARK.bAllocated() == false){
-        ofLoadImage(TEX_BARK, "textures/bark.png");
+    if (TEX_BARK.bAllocated() == false)
+    {
+        ofLoadImage(TEX_BARK, "textures/material/bacteria.png");
     }
 
-    if(TEX_BACTERIA.bAllocated() == false){
-        ofLoadImage(TEX_BACTERIA, "textures/bacteria.png");
+    if (TEX_BACTERIA.bAllocated() == false)
+    {
+        ofLoadImage(TEX_BACTERIA, "textures/material/bacteria.png");
     }
 
-    if(TEX_CRACK.bAllocated() == false){
-        ofLoadImage(TEX_CRACK, "textures/crack.png");
+    if (TEX_CRACK.bAllocated() == false)
+    {
+        ofLoadImage(TEX_CRACK, "textures/material/crack.png");
     }
 
-    if(TEX_SAND.bAllocated() == false){
-        ofLoadImage(TEX_SAND, "textures/sand.png");
+    if (TEX_SAND.bAllocated() == false)
+    {
+        ofLoadImage(TEX_SAND, "textures/material/sand.png");
     }
 
-    if(TEX_WIND.bAllocated() == false){
-        ofLoadImage(TEX_WIND, "textures/windbrush.png");
+    if (TEX_WIND.bAllocated() == false)
+    {
+        ofLoadImage(TEX_WIND, "textures/material/wind.png");
     }
 
-    if(TEX_WOOL.bAllocated() == false){
-        ofLoadImage(TEX_WOOL, "textures/wool_cloth.png");
+    if (TEX_WOOL.bAllocated() == false)
+    {
+        ofLoadImage(TEX_WOOL, "textures/material/wool.png");
+    }
+}
+
+void Map::loadMasks()
+{
+    if (MASK_BACTERIA.bAllocated() == false)
+    {
+        ofLoadImage(MASK_BACTERIA, "textures/mask/bacteria.png");
+    }
+
+    if (MASK_BARK.bAllocated() == false)
+    {
+        ofLoadImage(MASK_BARK, "textures/mask/bacteria.png");
+    }
+
+    if (MASK_CRACK.bAllocated() == false)
+    {
+        ofLoadImage(MASK_CRACK, "textures/masks/bacteria.png");
+    }
+
+    if (MASK_SAND.bAllocated() == false)
+    {
+        ofLoadImage(MASK_SAND, "textures/mask/bacteria.png");
+    }
+
+    if (MASK_WIND.bAllocated() == false)
+    {
+        ofLoadImage(MASK_WIND, "textures/mask/bacteria.png");
+    }
+
+    if (MASK_WOOL.bAllocated() == false)
+    {
+        ofLoadImage(MASK_WOOL, "textures/mask/bacteria.png");
     }
 }
