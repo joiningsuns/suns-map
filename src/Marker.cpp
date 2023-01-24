@@ -83,20 +83,33 @@ ofPath Marker::determineShape(string cluster)
 
     if (cluster == "Drought")
     {
-        p.curveTo(0, 30); //-- start from the end
-        p.curveTo(20, 25);
-        p.curveTo(45, 10);
-        p.curveTo(30, -80);
-        p.curveTo(10, -45);
-        p.curveTo(-35, -40);
-        p.curveTo(-15, -5);
-        p.curveTo(-20, 10);
-        p.curveTo(0, 30);
-        p.curveTo(20, 25);
-        p.curveTo(20, 25);
+        vector<ofPoint> pts;
+        pts.push_back(ofPoint(0, 30));
+        pts.push_back(ofPoint(20, 25));
+        pts.push_back(ofPoint(45, 10));
+        pts.push_back(ofPoint(30, -60));
+        pts.push_back(ofPoint(10, -45));
+        pts.push_back(ofPoint(-35, -40));
+        pts.push_back(ofPoint(-15, -5));
+        pts.push_back(ofPoint(-20, 10));
+        pts.push_back(ofPoint(0, 30));
+        pts.push_back(ofPoint(20, 25));
+        pts.push_back(ofPoint(20, 25));
+
+        p.curveTo(pts.at(0));
+        p.curveTo(pts.at(1));
+        for (int i = 2; i < pts.size() - 3; i++)
+        {
+            float factor = ofRandom(0.9, 1.6);
+            p.curveTo(pts.at(i) * factor);
+        }
+        p.curveTo(pts.at(pts.size() - 3));
+        p.curveTo(pts.at(pts.size() - 2));
+        p.curveTo(pts.at(pts.size() - 1));
     }
     else if (cluster == "Symbiosis")
     {
+        // offset rotation and scale
         p.curveTo(-10, -40);
         p.curveTo(0, -40);
         p.curveTo(-20, -20);
@@ -109,6 +122,10 @@ ofPath Marker::determineShape(string cluster)
         p.curveTo(0, -40);
         p.curveTo(0, -40);
         p.moveTo(0, -40);
+
+        float scaleFactorFirst = ofRandom(0.8, 1.2);
+        p.scale(scaleFactorFirst, scaleFactorFirst);
+        p.rotateDeg(ofRandom(90), ofVec2f(0, 1));
 
         p.moveTo(20, -35);
         p.moveTo(20, -35);
@@ -123,31 +140,62 @@ ofPath Marker::determineShape(string cluster)
         p.curveTo(20, -35);
         p.curveTo(20, -35);
 
-        p.scale(2, 2);
+        float scaleFactor = ofRandom(1.2, 1.8);
+        p.scale(scaleFactor, scaleFactor);
     }
     else if (cluster == "Footprints")
     {
-        p.circle(0, 0, 20);
-        p.circle(30, 25, 22);
-        p.circle(-20, 55, 32);
-        p.circle(20, -55, 35);
+        vector<ofPoint> locations;
+        locations.push_back(ofPoint(0, 0));
+        locations.push_back(ofPoint(30, 25));
+        locations.push_back(ofPoint(-20, 55));
+        locations.push_back(ofPoint(20, -55));
+        locations.push_back(ofPoint(-20, -45));
+        locations.push_back(ofPoint(20, 45));
+
+        int max = ofRandom(4, locations.size());
+        for (int i = 0; i < max; i++)
+        {
+            float rad = ofRandom(15, 35);
+            p.circle(locations.at(i), rad);
+        }
     }
     else if (cluster == "Combining First Times")
     {
-        p.ellipse(ofVec2f(-15, 0), 60, 90);
-        p.ellipse(ofVec2f(15, 12), 65, 80);
+        p.ellipse(ofVec2f(-15 + ofRandom(5), 0 + ofRandom(5)), 60, 80 + ofRandom(15));
+        p.ellipse(ofVec2f(15 + ofRandom(5), 12 + ofRandom(5)), 65, 70 + ofRandom(20));
     }
     else if (cluster == "Cracks")
     {
-        p.lineTo(50, -40);
-        p.lineTo(30, -30);
-        p.lineTo(15, -20);
-        p.lineTo(-15, 40);
-        p.lineTo(-30, 5);
-        p.lineTo(-15, 15);
-        p.lineTo(-5, -5);
-        p.lineTo(5, -35);
-        p.lineTo(50, -40);
+        //-- add another branch and randomize the tips
+        float f = ofRandomf();
+        if (f < 0)
+        {
+            p.lineTo(-50, -40);
+            p.lineTo(15, -20);
+            p.lineTo(30, -30);
+            p.lineTo(10, -5);
+            p.lineTo(22, 30);
+            p.lineTo(2, -5);
+            p.lineTo(-15, 40);
+            p.lineTo(-30, 5);
+            p.lineTo(-15, 15);
+            p.lineTo(-5, -5);
+            p.lineTo(5, -35);
+            p.lineTo(-50, -40);
+        }
+        else
+        {
+            p.lineTo(50, -40);
+            p.lineTo(30, -30);
+            p.lineTo(15, -20);
+            p.lineTo(-15, 40);
+            p.lineTo(-30, 5);
+            p.lineTo(-15, 15);
+            p.lineTo(-5, -5);
+            p.lineTo(5, -35);
+            p.lineTo(50, -40);
+        }
     }
     else if (cluster == "Prompts")
     {
