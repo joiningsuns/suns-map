@@ -20,7 +20,7 @@ Marker::Marker(int gen, string status, string cluster, float lng, float lat)
     blendAlpha = 250;
     blendColor = determineColor(status);
 
-    rotationFactor = ofRandom(360);
+    rotationFactor = ofRandom(10);
     //-- todo
     //-- get the age of the marker
     //-- determine scale factor based on age and status (old open = small, old completed = large)
@@ -123,7 +123,7 @@ ofPath Marker::determineShape(string cluster)
         p.curveTo(0, -40);
         p.moveTo(0, -40);
 
-        float scaleFactorFirst = ofRandom(0.8, 1.2);
+        float scaleFactorFirst = ofRandom(0.9, 1.1);
         p.scale(scaleFactorFirst, scaleFactorFirst);
         p.rotateDeg(ofRandom(90), ofVec2f(0, 1));
 
@@ -140,7 +140,7 @@ ofPath Marker::determineShape(string cluster)
         p.curveTo(20, -35);
         p.curveTo(20, -35);
 
-        float scaleFactor = ofRandom(1.2, 1.8);
+        float scaleFactor = ofRandom(1.2, 1.3);
         p.scale(scaleFactor, scaleFactor);
     }
     else if (cluster == "Footprints")
@@ -162,8 +162,8 @@ ofPath Marker::determineShape(string cluster)
     }
     else if (cluster == "Combining First Times")
     {
-        p.ellipse(ofVec2f(-15 + ofRandom(5), 0 + ofRandom(5)), 60, 80 + ofRandom(15));
-        p.ellipse(ofVec2f(15 + ofRandom(5), 12 + ofRandom(5)), 65, 70 + ofRandom(20));
+        p.ellipse(ofVec2f(-15 + ofRandom(1.3), 0 + ofRandom(5)), 60, 80 + ofRandom(15));
+        p.ellipse(ofVec2f(15 + ofRandom(1.4), 12 + ofRandom(5)), 65, 70 + ofRandom(20));
     }
     else if (cluster == "Cracks")
     {
