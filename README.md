@@ -1,75 +1,31 @@
 # suns map
 
-a map that develops over time and generations of entrypoints. can also be subjected to sacrifices.
+This is a headless OpenFrameworks application, hosed on a DO droplet, which draws an image based on a remote input
 
-## todo
+## architecture
 
-- [x] stop the draw loop once it's printed
-- [x] display shapes several time for one marker, based on how old it is
-- [ ] figure out how to not clear the markers, and update the markers that are already existing
-- [x] draw paths between markers
-- [ ] show only outline if open, filled if pending, filled and thick outline if completed
-- [ ] figure out a background (districts could be patterns: just `* * *` or `( ) ( ) ( )`)
-- [x] fix the issue where only top left quarter of markers is displayed
+First, the web server has the `/post` endpoint, which parses an array of comma-separated values including:
 
-- having 2 or 3 Path typologies (hand drawn, parallel lines)
-- having a grid of points in the background
-- changing the icons in the middle (with a simple cross)
+- generation of the entrypoint
+- status of the entrypoint (open, pending, completed)
+- cluster (name)
+- lat (floating point number)
+- lng (floating point number)
 
-## palettes
+From this request, a series of markers are created from scratch and passed to the `Map` object.
 
-- https://colorswall.com/palette/178942
-- https://colorkit.co/palette/ab5852-eadaa0-d69e49-838469-476066/
+How each marker is drawn is decided in `Marker.cpp`, wtih three main variables:
 
-## factors
-
-data which should be provided as comma-separated values
-- generation
-- status
-    - open: just filled?
-    - pending: filled + stroke (stroke style: dotted vs. line)
-    - done: desaturated
-- cluster
-- lat
-- lng
+- the shape represents the cluser
+- the color represents the status
+- the size represents the generation
 
 ## notes
 
-inspired by [kevin lynch's image of the city](https://en.wikipedia.org/wiki/The_Image_of_the_City)
+because OF requires a GL context, and running an app headless does not have one, we have to run the app in production with:
 
-- __variables__
-    - generation
-    - cluster
-    - status
+`/usr/bin/xvfb-run -a /root/of_v20221126_linux64gcc6_release/apps/myApps/suns-map/bin/suns-map`
 
-- __static elements__
-    - district
-        - ofShape() with some randomized vertices, and a bit of alpha
-        - 3d surface
-        - heightmap
-        - topography lines shader
-        - move all vertices in a given area to smooth slope
-    - path
-        - randomize whether the path is drawn or not
-        - draw from entrypoint OR from average mean of entrypoint
-        - branch away from path?
-    - edge
-        - limit of zone of influence of each entrypoint?
-    - node
-        - entrypoints, could have specific addition to it (already done)
-    - landmark
-        - tbd but needed (lake?)
-        - squares as houses
-        
-- __modes of interaction__
-    - proximity?
-    - similar clusters?
-        
-        
-- __file input/output__
-    - command line args
-    - take input coordinates between [[0,0], [500,500]], with a type, and a status (for now, as JSON)
-    - affect a radius around each input
-    - write image that's 1000x1000
+## environment
 
-- __http server__
+- `PROD` and `DEV` essentially decide where the images should be saved.
